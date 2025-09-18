@@ -47,18 +47,18 @@ const styles = StyleSheet.create({
   passengerWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 0, // Minimal padding to keep elements close
+    paddingHorizontal: 0,
   },
   passengerControl: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 0, // Removed padding to eliminate extra space
+    paddingHorizontal: 0,
   },
   passengerButton: {
     padding: 6,
     backgroundColor: '#09C912',
     borderRadius: 20,
-    marginHorizontal: 65, // Removed margin to bring buttons closer to number
+    marginHorizontal: 65,
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -93,6 +93,52 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     padding: 10,
+  },
+  suggestionContainer: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    maxHeight: 200,
+    zIndex: 1000,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  suggestionItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    marginLeft: 10,
+  },
+  suggestionText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  loader: {
+    padding: 10,
+    alignSelf: 'center',
+  },
+  clearButton: {
+    padding: 5,
+    marginRight: 5,
+  },
+  locationButton: {
+    padding: 5,
+  },
+  disabledButton: {
+    backgroundColor: '#ccc',
+  },
+  welcomeText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15,
+    color: '#333',
   },
 });
 
