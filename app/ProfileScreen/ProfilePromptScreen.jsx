@@ -24,14 +24,14 @@ const ProfilePromptScreen = ({ navigation }) => {
 
   const handleNoPress = () => {
     setShowArrow(true);
-    setNextScreen('RidePublishScreen'); // Navigate to RidePublishScreen
+    setNextScreen('DriverVerification'); // Navigate to RidePublishScreen
   };
 
   const handleArrowPress = () => {
     if (nextScreen === 'ProfilePictureScreen') {
       navigation.navigate('ProfilePictureScreen');
-    } else if (nextScreen === 'RidePublishScreen') {
-      navigation.navigate('RidePublishScreen'); // Navigate to RidePublishScreen
+    } else if (nextScreen === 'DriverVerification') {
+      navigation.navigate('DriverVerification'); // Navigate to RidePublishScreen
     }
     setShowArrow(false);
     setNextScreen(null);

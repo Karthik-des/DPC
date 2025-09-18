@@ -19,7 +19,7 @@ const RidePublishScreen = ({ navigation }) => {
     setTimeout(() => {
       setIsPublishing(false);
       Alert.alert('Success', 'Ride published successfully!');
-      navigation.goBack();
+      navigation.navigate('HomeScreen');
     }, 1500);
   };
 

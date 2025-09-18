@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 3,
+    elevation: 10,
   },
   inputWrapper: {
     flexDirection: 'row',
@@ -20,10 +20,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: '#fff',
     borderRadius: 16,
-    // borderColor: '#8cf298ff',
+   borderColor: '#8cf298ff',
     padding: 5,
     borderWidth: 1,
     borderColor: '#E0E0E0',
+    elevation:10,
   },
   icon: {
     padding: 10,
@@ -81,13 +82,14 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 10,
      marginHorizontal:50,
   },
   searchButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+    elevation:10,
   },
   optionsContainer: {
     padding: 10,
