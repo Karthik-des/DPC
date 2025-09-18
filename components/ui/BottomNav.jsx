@@ -15,7 +15,7 @@ const BottomNav = ({ navigation }) => (
         <Ionicons name="add-circle-outline" size={30} color="#09C912" />
         <Text style={styles.navText}>Publish</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("YourRide")}>
+      <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("YourRides")}>
         <Ionicons name="map-outline" size={30} color="#09C912" />
         <Text style={styles.navText}>Your rides</Text>
       </TouchableOpacity>
