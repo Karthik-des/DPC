@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FAFBFD',
+    marginTop:20,
   },
 
   // Top Header (like RidePlan)
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
+
   },
 
   backButton: {

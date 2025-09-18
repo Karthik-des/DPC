@@ -10,14 +10,24 @@ const styles = StyleSheet.create({
   
   // Header Styles
   header: {
-    backgroundColor: '#ffffff',
-    paddingTop: 50,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  
+  backButton: {
+    padding: 10,
+    marginTop:10,
+    borderRadius: 25,
+    backgroundColor: '#FFFFFF',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  }, 
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',

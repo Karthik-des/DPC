@@ -6,8 +6,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     marginHorizontal: 16,
-    marginTop: 8,
+   
     elevation:10,
+
   },
   headerGradient: {
     borderRadius: 24,
