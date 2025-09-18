@@ -17,6 +17,7 @@ import EditPublicationScreen from "../RidePlan/EditPublicationScreen";
 import UserBooked from "../RidePlan/UserBooked";
 import UserCancelled from "../RidePlan/UserCancelled";
 import UserCompleated from "../RidePlan/UserCompleated";  
+import  Profile from "../Profile/Profile";
 const Stack = createNativeStackNavigator();
 
 export default function TabIndex() {
@@ -37,6 +38,7 @@ export default function TabIndex() {
       <Stack.Screen name="UserBooked" component={UserBooked} />
       <Stack.Screen name="UserCancelled" component={UserCancelled} />
       <Stack.Screen name="UserCompleated" component={UserCompleated} /> 
+      <Stack.Screen name="Profile" component={Profile} />
 
 
     </Stack.Navigator>
