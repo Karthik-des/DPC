@@ -23,46 +23,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#64748B',
   },
-  filterContainer: {
+  
+  // Ride type indicator
+  rideTypeContainer: {
+    marginBottom: 12,
+  },
+  rideTypeBadge: {
     flexDirection: 'row',
-    margin: 20,
-    backgroundColor: '#F1F5F9',
-    borderRadius: 12,
-    padding: 4,
-  },
-  filterButton: {
-    flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
     alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
   },
-  activeFilter: {
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+  driverRideBadge: {
+    backgroundColor: '#8B5CF6', // Purple for driver
   },
-  filterText: {
-    fontSize: 16,
+  userRideBadge: {
+    backgroundColor: '#3B82F6', // Blue for user
+  },
+  rideTypeText: {
+    fontSize: 12,
     fontWeight: '600',
-    color: '#64748B',
+    color: '#FFFFFF',
+    marginLeft: 4,
   },
-  activeFilterText: {
-    color: '#1E293B',
-  },
-  rideList: {
-    flex: 1,
-  },
-  listContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
+  
+  // Ride card style
   rideCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
@@ -79,11 +66,69 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#F1F5F9',
   },
+  driverRideCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#8B5CF6', // Purple for driver
+  },
+  userRideCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#3B82F6', // Blue for user
+  },
+  
+  // Blocked ride card
+  blockedRideCard: {
+    borderWidth: 2,
+    borderColor: '#FECACA',
+    backgroundColor: '#FEF2F2',
+  },
+  
+  filterContainer: {
+    flexDirection: 'row',
+    margin: 20,
+    backgroundColor: '#F1F5F9',
+    borderRadius: 12,
+    padding: 4,
+  },
+  filterButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  activeFilter: {
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  filterText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#64748B',
+    textAlign: 'center',
+  },
+  activeFilterText: {
+    color: '#1E293B',
+  },
+  rideList: {
+    flex: 1,
+  },
+  listContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  
   rideHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   dateTimeContainer: {
     flex: 1,
@@ -118,8 +163,74 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
+  
+  // Countdown Container
+  countdownContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEF3C7',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginBottom: 12,
+    alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderColor: '#FDE68A',
+  },
+  countdownText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#92400E',
+    marginLeft: 6,
+  },
+
+  // Cancellation Notice
+  cancellationNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEF2F2',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginBottom: 12,
+    alignSelf: 'flex-start',
+    maxWidth: '100%',
+    borderWidth: 1,
+    borderColor: '#FECACA',
+  },
+  
+  blockedCancellationNotice: {
+    backgroundColor: '#DC2626',
+    borderColor: '#991B1B',
+  },
+  
+  cancellationText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#DC2626',
+    marginLeft: 6,
+    flex: 1,
+  },
+
+  // Cancellation number display
+  cancellationNumberContainer: {
+    backgroundColor: '#F3F4F6',
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    alignSelf: 'flex-start',
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+  },
+  cancellationNumberText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#6B7280',
+  },
+  
   routeContainer: {
-    marginBottom: 0,
+    marginBottom: 12,
   },
   routeItem: {
     flexDirection: 'row',
@@ -130,8 +241,8 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#10B981',
-    marginRight: 10,
+    backgroundColor: '#09C912',
+    marginRight: 12,
   },
   routeLine: {
     width: 2,
@@ -145,17 +256,81 @@ const styles = StyleSheet.create({
     color: '#1E293B',
     fontWeight: '500',
     flex: 1,
-    marginLeft: 10,
   },
+  
+  // Ride Info Container
+  rideInfoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#F1F5F9',
+  },
+  rideInfoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  rideInfoText: {
+    fontSize: 12,
+    color: '#64748B',
+    marginLeft: 4,
+  },
+  costText: {
+    color: '#09C912',
+    fontWeight: '600',
+  },
+  
+  // Driver Info Container (for completed rides)
+  driverInfoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#F1F5F9',
+  },
+  driverInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  driverInfoText: {
+    fontSize: 12,
+    color: '#64748B',
+    marginLeft: 6,
+    fontWeight: '500',
+  },
+  driverRating: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  driverRatingText: {
+    fontSize: 12,
+    color: '#F59E0B',
+    marginLeft: 2,
+    fontWeight: '600',
+  },
+  
   emptyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 60,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#64748B',
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#374151',
     textAlign: 'center',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  emptySubText: {
+    fontSize: 14,
+    color: '#9CA3AF',
+    textAlign: 'center',
+    paddingHorizontal: 20,
   },
 });
 

@@ -52,6 +52,42 @@ const styles = StyleSheet.create({
     color: '#1E293B',
     marginBottom: 16,
   },
+  
+  // Title and Status Row
+  titleAndStatus: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  statusBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+  },
+  
+  // Countdown Container
+  countdownContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEF3C7',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginBottom: 16,
+  },
+  countdownText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#92400E',
+    marginLeft: 8,
+  },
+  
   routeContainer: {
     marginBottom: 20,
   },
@@ -263,6 +299,144 @@ const styles = StyleSheet.create({
     color: '#1E293B',
     fontSize: 16,
     fontWeight: '600',
+  },
+  
+  // Cancelled Ride Styles
+  cancelledContainer: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    borderRadius: 16,
+    padding: 32,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  cancelledIcon: {
+    marginBottom: 20,
+  },
+  cancelledTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#EF4444',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  cancelledMessage: {
+    fontSize: 16,
+    color: '#374151',
+    textAlign: 'center',
+    marginBottom: 8,
+    lineHeight: 24,
+  },
+  cancelledSubMessage: {
+    fontSize: 14,
+    color: '#6B7280',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  
+  // Cancel Button
+  cancelButton: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: '#EF4444',
+    marginTop: 8,
+  },
+  cancelButtonText: {
+    color: '#EF4444',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  
+  // Completed Ride Styles
+  completedMessageCard: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    borderRadius: 16,
+    padding: 32,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  completedIcon: {
+    marginBottom: 20,
+  },
+  completedTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#10B981',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  completedMessage: {
+    fontSize: 16,
+    color: '#374151',
+    textAlign: 'center',
+    marginBottom: 8,
+    lineHeight: 24,
+  },
+  completedSubMessage: {
+    fontSize: 14,
+    color: '#6B7280',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  
+  // Cancellation Info Card
+  cancellationInfoCard: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  infoItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+  },
+  infoContent: {
+    marginLeft: 12,
+    flex: 1,
+  },
+  infoTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1E293B',
+    marginBottom: 4,
+  },
+  infoSubtitle: {
+    fontSize: 14,
+    color: '#64748B',
   },
 });
 
