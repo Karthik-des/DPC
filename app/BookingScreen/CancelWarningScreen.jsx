@@ -54,12 +54,16 @@ const CancelWarningScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.backButtonContainer}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="arrow-back" size={24} color="#2C3E50" />
-        </TouchableOpacity>
+        <View style={styles.headerrr}>
+                     <TouchableOpacity
+                       onPress={() => navigation.goBack()}
+                       style={styles.backButton}
+                     >
+                       <Ionicons name="arrow-back" size={24} color="#09C912" />
+                     </TouchableOpacity>
+                   
+                 
+                   </View>
       </View>
       <Ionicons name="warning" size={60} color="#ff4b5c" style={styles.icon} />
       <Text style={styles.title}>Cancelling this ride may affect your future bookings</Text>

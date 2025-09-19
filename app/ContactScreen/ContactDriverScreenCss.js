@@ -4,8 +4,24 @@ const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F4F6F7', padding: 15 },
-  header: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginVertical: 10 },
-  backButton: { position: 'absolute', top: 40, left: 15, zIndex: 2 },
+  header: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
   card: {
     backgroundColor: '#fff',
     padding: 20,
@@ -26,11 +42,11 @@ const styles = StyleSheet.create({
     width: '100%',
     marginVertical: 15,
   },
-  callBtn: { flex: 1, marginRight: 5, backgroundColor: '#0089d8', padding: 10, borderRadius: 32 },
-  messageBtn: { flex: 1, marginHorizontal: 5, backgroundColor: '#0089d8', padding: 10, borderRadius: 32 },
-  chatBtn: { flex: 1, marginLeft: 5, backgroundColor: '#0089d8', padding: 10, borderRadius: 32 },
+  callBtn: { flex: 1, marginRight: 5, backgroundColor: '#09C912', padding: 10, borderRadius: 32 },
+  messageBtn: { flex: 1, marginHorizontal: 5, backgroundColor: '#09c912', padding: 10, borderRadius: 32 },
+  chatBtn: { flex: 1, marginLeft: 5, backgroundColor: '#09c912', padding: 10, borderRadius: 32 },
   btnText: { color: '#fff', textAlign: 'center', fontWeight: '600' },
-  bookBtn: { marginTop: 10, backgroundColor: '#0089d8', padding: 12, borderRadius: 32, width: '100%' },
+  bookBtn: { marginTop: 10, backgroundColor: '#09c912', padding: 12, borderRadius: 32, width: '100%' },
   bookText: { color: '#fff', textAlign: 'center', fontWeight: 'bold' },
 
   chatDrawer: {
@@ -66,7 +82,7 @@ const styles = StyleSheet.create({
   },
   sendBtn: {
     marginLeft: 10,
-    backgroundColor: '#1e90ff',
+    backgroundColor: '#09C912',
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 20,

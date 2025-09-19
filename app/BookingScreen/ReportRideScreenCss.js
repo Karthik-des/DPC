@@ -7,6 +7,25 @@ export default StyleSheet.create({
     backgroundColor: '#f0f4f8', // Soft blue-gray for a premium backdrop
     paddingHorizontal: 24,
     paddingTop: 16,
+    marginTop:40,
+  },
+   headerrr: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
 
  header: {
@@ -62,7 +81,7 @@ profileIcon: {
 
   textArea: {
     height: 120,
-    borderColor: '#0c8fc7ff',
+    borderColor: '#09cc12',
     borderWidth: 1.5,
     borderRadius: 14,
     padding: 14,
@@ -74,7 +93,7 @@ profileIcon: {
 
   submitButton: {
     marginTop: 30,
-    backgroundColor: '#0c8fc7ff',
+    backgroundColor: '#09c912',
     borderRadius: 30,
     paddingVertical: 14,
     alignItems: 'center',

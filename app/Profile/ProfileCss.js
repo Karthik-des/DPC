@@ -9,6 +9,26 @@ const styles = StyleSheet.create({
   },
   
   // Header Styles
+   headerrr: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+
+
   header: {
     backgroundColor: '#ffffff',
     paddingTop: 50,

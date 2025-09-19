@@ -7,6 +7,24 @@ export default StyleSheet.create({
     backgroundColor: '#f0f4f8', // Soft blue-gray for consistency
     paddingHorizontal:24
   },
+   header: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
   scrollContainer: {
     flexGrow: 1,
     paddingBottom: 40,
@@ -106,7 +124,5 @@ export default StyleSheet.create({
     marginTop: 30,
     marginLeft: 8,
   },
-backButton: {
-  padding: 8,
-},
+
 });

@@ -183,12 +183,16 @@ const DisplayScreen = () => {
     <View style={styles.container}>
       {/* Header with back button */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={handleGoBack}
-        >
-          <Ionicons name="arrow-back" size={24} color="#2C3E50" />
-        </TouchableOpacity>
+         <View style={styles.headerrr}>
+                      <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={styles.backButton}
+                      >
+                        <Ionicons name="arrow-back" size={24} color="#09C912" />
+                      </TouchableOpacity>
+                    
+              
+                    </View>
         <Text style={styles.headerTitle}>Available Rides</Text>
         <View style={styles.headerSpacer} />
       </View>

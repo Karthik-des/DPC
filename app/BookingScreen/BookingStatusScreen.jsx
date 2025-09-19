@@ -48,12 +48,16 @@ const BookingStatusScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.backButtonContainer}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="arrow-back" size={24} color="#2C3E50" />
-          </TouchableOpacity>
+          <View style={styles.headerrr}>
+                       <TouchableOpacity
+                         onPress={() => navigation.goBack()}
+                         style={styles.backButton}
+                       >
+                         <Ionicons name="arrow-back" size={24} color="#09C912" />
+                       </TouchableOpacity>
+                     
+                       <View style={styles.placeholder} />
+                     </View>
         </View>
         <View style={styles.container}>
           <Animated.View entering={FadeIn.duration(300)} style={styles.header}>
@@ -132,7 +136,7 @@ const BookingStatusScreen = () => {
           <Text style={styles.noPassenger}>No other passengers yet</Text>
 
           <View style={styles.footer}>
-            <TouchableOpacity onPress={() => navigation.navigate('Display')}>
+            <TouchableOpacity onPress={() => navigation.navigate('DisplayScreen')}>
               <Text style={styles.linkText}>See ride offer</Text>
             </TouchableOpacity>
             <TouchableOpacity

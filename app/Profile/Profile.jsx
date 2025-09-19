@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import {
   Alert,
   Image,
@@ -11,10 +11,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Animated,
 } from 'react-native';
 import styles from './ProfileCss';
-
-// Navigates to dedicated form screens instead of using a modal
 
 const Profile = () => {
   const router = useRouter();
@@ -40,8 +39,17 @@ const Profile = () => {
       licensePlate: '',
     },
   });
-
   const [profileImageUri, setProfileImageUri] = useState(null);
+  const fadeAnim = useRef(new Animated.Value(0)).current; // Animation for back arrow
+
+  // Run fade animation on mount
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
 
   const requestMediaPermissions = useCallback(async () => {
     const media = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -99,7 +107,6 @@ const Profile = () => {
   }, [pickFromGallery, takePhoto]);
 
   const openFormScreen = useCallback((type) => {
-    // map type to route
     const routeMap = {
       personal: '/Profile/forms/PersonalDetailsForm',
       govId: '/Profile/forms/VerifyGovIdForm',
@@ -138,9 +145,6 @@ const Profile = () => {
       }
     }));
   }, []);
-
-  // using separate screens for forms now
-
 
   const ProfileHeader = () => (
     <View style={styles.profileHeader}>
@@ -350,9 +354,18 @@ const Profile = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      
-      {/* Header with Tabs */}
-      <View style={styles.header}>
+      {/* Header with Back Arrow and Tabs */}
+      <View style={styles.headerrr}>
+        <Animated.View style={{ opacity: fadeAnim }}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.back()}
+            accessibilityLabel="Go back"
+            accessibilityHint="Returns to the previous screen"
+          >
+            <Ionicons name="arrow-back" size={24} color="#09C912" />
+          </TouchableOpacity>
+        </Animated.View>
         <View style={styles.tabContainer}>
           <TouchableOpacity
             style={[
@@ -370,7 +383,6 @@ const Profile = () => {
               About you
             </Text>
           </TouchableOpacity>
-          
           <TouchableOpacity
             style={[
               styles.tab,
@@ -392,8 +404,6 @@ const Profile = () => {
 
       {/* Content */}
       {activeTab === 'about' ? renderAboutContent() : renderAccountContent()}
-      
-      {/* forms are now separate screens; modal removed */}
     </SafeAreaView>
   );
 };

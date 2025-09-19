@@ -36,12 +36,17 @@ const BookingConfirmationScreen = () => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.backButtonContainer}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="arrow-back" size={24} color="#2C3E50" />
-          </TouchableOpacity>
+           <View style={styles.headerrr}>
+                       <TouchableOpacity
+                         onPress={() => navigation.goBack()}
+                         style={styles.backButton}
+                       >
+                         <Ionicons name="arrow-back" size={24} color="#09C912" />
+                       </TouchableOpacity>
+                     
+                       <View style={styles.placeholder} />
+                     </View>
+         
         </View>
         <View style={styles.header}>
           <View style={styles.iconContainer}>
