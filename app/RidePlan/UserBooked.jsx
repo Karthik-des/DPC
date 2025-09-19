@@ -49,22 +49,18 @@ const UserBooked = ({ navigation, route }) => {
   };
 
   const handleContactDriver = () => {
-    Alert.alert(
-      'Contact Driver',
-      'How would you like to contact your driver?',
-      [
-        { text: 'Call', onPress: () => console.log('Call driver') },
-        { text: 'Message', onPress: () => console.log('Message driver') },
-        { text: 'Cancel', style: 'cancel' }
-      ]
-    );
+    navigation.navigate('ContactDriver', { rideData });
   };
 
   return (
     <ScrollView style={styles.userContainer}>
       <View style={styles.userHeader}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#1E293B" />
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
+        >
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
         <Text style={styles.userHeaderTitle}>Booked Ride Details</Text>
       </View>
@@ -171,7 +167,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    marginRight: 16,
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
   },
   userHeaderTitle: {
     fontSize: 28,
@@ -193,7 +197,7 @@ const styles = StyleSheet.create({
   },
   userRideCard: {
     borderLeftWidth: 4,
-    borderLeftColor: '#3B82F6', // Blue for user
+    borderLeftColor: '#3B82F6',
   },
   rideStatusHeader: {
     flexDirection: 'row',

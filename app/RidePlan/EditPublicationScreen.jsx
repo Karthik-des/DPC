@@ -10,8 +10,51 @@ import {
   Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './EditPublicationCss';
+
+// Consistent header styles from CompleatedRidePlan
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+  saveButton: {
+    padding: 10,
+  },
+  saveButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#3B82F6',
+  },
+};
 
 const EditPublicationScreen = ({ navigation, route }) => {
   // Get ride data passed from BookedRidePlan
@@ -138,16 +181,20 @@ const EditPublicationScreen = ({ navigation, route }) => {
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
+      <View style={additionalStyles.headerRow}>
+        <TouchableOpacity
+          style={additionalStyles.backButton}
           onPress={handleCancel}
+          activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Edit Publication</Text>
-        <TouchableOpacity onPress={handleSubmit}>
-          <Text style={styles.saveButton}>Save</Text>
+        <View style={additionalStyles.headerContent}>
+          <Text style={additionalStyles.headerTitle}>Edit Publication</Text>
+          <Text style={additionalStyles.subHeader}>Modify your ride details</Text>
+        </View>
+        <TouchableOpacity style={additionalStyles.saveButton} onPress={handleSubmit}>
+          <Text style={additionalStyles.saveButtonText}>Save</Text>
         </TouchableOpacity>
       </View>
 
