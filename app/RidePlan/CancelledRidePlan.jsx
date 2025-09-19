@@ -49,7 +49,7 @@ const CancelledRidePlan = ({ navigation, route }) => {
 
   const handleBookSimilarRide = () => {
     // Navigate to HomeScreen with ride data to prefill the booking form
-    navigation.navigate('HomeScreen', {
+    navigation.navigate('BookRideScreen', {
       prefillData: {
         from: rideData.from,
         to: rideData.to,
