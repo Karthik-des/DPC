@@ -66,8 +66,9 @@ const PublicationScreen = ({ navigation, route }) => {
         <TouchableOpacity 
           style={styles.backButton}
           onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color="#fff" />
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Your Ride Publication</Text>
         <View style={styles.placeholder} />
@@ -223,7 +224,14 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   backButton: {
-    padding: 4,
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   headerText: {
     fontSize: 18,

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   driverRideBadge: {
-    backgroundColor: '#8B5CF6', // Purple for driver
+    backgroundColor: '#09C912', // Green for driver
   },
   userRideBadge: {
     backgroundColor: '#3B82F6', // Blue for user
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   driverRideCard: {
     borderLeftWidth: 4,
-    borderLeftColor: '#8B5CF6', // Purple for driver
+    borderLeftColor: '#09C912', // Green for driver
   },
   userRideCard: {
     borderLeftWidth: 4,
@@ -184,17 +184,16 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
 
-  // Cancellation Notice
+  // Enhanced Cancellation Notice
   cancellationNotice: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FEF2F2',
     borderRadius: 8,
     paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingVertical: 8,
     marginBottom: 12,
-    alignSelf: 'flex-start',
-    maxWidth: '100%',
+    alignSelf: 'stretch',
     borderWidth: 1,
     borderColor: '#FECACA',
   },
@@ -202,6 +201,14 @@ const styles = StyleSheet.create({
   blockedCancellationNotice: {
     backgroundColor: '#DC2626',
     borderColor: '#991B1B',
+    shadowColor: '#DC2626',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   
   cancellationText: {
@@ -212,21 +219,70 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // Cancellation number display
+  // Enhanced Cancellation number display
   cancellationNumberContainer: {
-    backgroundColor: '#F3F4F6',
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    alignSelf: 'flex-start',
     marginTop: 8,
+    marginBottom: 8,
+  },
+  cancellationNumberBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#D1D5DB',
+    marginBottom: 6,
+    backgroundColor: '#F3F4F6',
+    borderColor: '#E5E7EB',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
   cancellationNumberText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
+    marginLeft: 8,
+    color: '#374151',
+    flex: 1,
+  },
+  cancellationTimeText: {
+    fontSize: 10,
     color: '#6B7280',
+    marginTop: 4,
+    marginBottom: 4,
+    fontStyle: 'italic',
+    paddingLeft: 4,
+  },
+  
+  // Enhanced blocked account support button
+  blockedAccountButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#EF4444',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    marginTop: 8,
+    shadowColor: '#EF4444',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  blockedAccountButtonText: {
+    fontSize: 11,
+    color: '#FFFFFF',
+    fontWeight: '600',
+    marginHorizontal: 6,
+    textAlign: 'center',
   },
   
   routeContainer: {

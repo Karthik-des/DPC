@@ -6,7 +6,6 @@ import HomeScreen from "../HomeScreens/HomeScreen";
 import ProfilePrompt from "../ProfileScreen/ProfilePromptScreen";
 import ProfilePictureScreen from "../ProfileScreen/ProfilePictureScreen";
 import RidePublishScreen from "../RideScreens/RidePublishScreen";
-<<<<<<< HEAD
 import DisplayScreen from "../DisplayScreen/DisplayScreen";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import RegisterScreen from "../RegisterScreen/RegisterScreen";
@@ -54,7 +53,6 @@ import MapScreen from "../MapScreen/MapScreen";
 
 // ------------------------------------------
 
-=======
 import YourRides from "../YourRides/YourRides";
 import RidePlan from "../RidePlan/RidePlan";
 import IdUpload from "../IdUpload/IdUpload";
@@ -67,21 +65,22 @@ import UserBooked from "../RidePlan/UserBooked";
 import UserCancelled from "../RidePlan/UserCancelled";
 import UserCompleated from "../RidePlan/UserCompleated";  
 import  Profile from "../Profile/Profile";
->>>>>>> a639b74c57e8df24ef4f69e155a4a8b67f6021c3
+import ContactDriver from "../RidePlan/ContactDriver";
+import ChatScreen from "../RidePlan/ChatScreen";
+import SupportChatScreen from "../RidePlan/SupportChatScreen";
+import BlockedPage from "../RidePlan/BlockedPage";
+import CancellationHistory from "../RidePlan/CancellationHistory";
 const Stack = createNativeStackNavigator();
 
 export default function TabIndex() {
   return (
     <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
-<<<<<<< HEAD
       {/* Main Screens */}
-=======
->>>>>>> a639b74c57e8df24ef4f69e155a4a8b67f6021c3
+
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ProfilePrompt" component={ProfilePrompt} />
       <Stack.Screen name="ProfilePictureScreen" component={ProfilePictureScreen} />
       <Stack.Screen name="RidePublishScreen" component={RidePublishScreen} />
-<<<<<<< HEAD
       <Stack.Screen name="DisplayScreen" component={DisplayScreen} />
 
 
@@ -134,7 +133,6 @@ export default function TabIndex() {
       <Stack.Screen name="MapScreen" component={MapScreen} />
 
     
-=======
       <Stack.Screen name="YourRides" component={YourRides} />
       <Stack.Screen name="RidePlan" component={RidePlan} />
       <Stack.Screen name="IdUpload" component={IdUpload} />
@@ -147,9 +145,13 @@ export default function TabIndex() {
       <Stack.Screen name="UserCancelled" component={UserCancelled} />
       <Stack.Screen name="UserCompleated" component={UserCompleated} /> 
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="ContactDriver" component={ContactDriver} />
+      <Stack.Screen name="ChatScreen" component={ChatScreen} />
+      <Stack.Screen name="SupportChatScreen" component={SupportChatScreen} />
+      <Stack.Screen name="BlockedPage" component={BlockedPage} />
+      <Stack.Screen name="CancellationHistory" component={CancellationHistory} />
 
 
->>>>>>> a639b74c57e8df24ef4f69e155a4a8b67f6021c3
     </Stack.Navigator>
   );
 }

@@ -1,7 +1,42 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Switch, StyleSheet, ScrollView, Alert, Modal, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Switch, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
 import { Ionicons, MaterialIcons, Feather, AntDesign, FontAwesome } from '@expo/vector-icons';
 import Animated, { FadeIn } from 'react-native-reanimated';
+
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+};
 
 const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
   const [settings, setSettings] = useState({
@@ -56,21 +91,21 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <Animated.View entering={FadeIn.duration(300)} style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          {/* <Ionicons name="arrow-back" size={24} color="#0089d8" /> */}
+      <Animated.View entering={FadeIn.duration(300)} style={additionalStyles.headerRow}>
+        <TouchableOpacity 
+          style={additionalStyles.backButton}
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
+        >
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
-        <Image
-          source={require('../../assets/Dropic.png')}
-          style={styles.logo}
-          onError={(e) => console.log('Image error:', e.nativeEvent.error)}
-        />
-        <View style={{ width: 24 }} />
+        <View style={additionalStyles.headerContent}>
+          <Text style={additionalStyles.headerTitle}>Settings</Text>
+          <Text style={additionalStyles.subHeader}>Manage your preferences</Text>
+        </View>
       </Animated.View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Profile Section */}
         <View style={styles.profileSection}>
           <FontAwesome name="user-circle" size={60} color="#0089d8" />
           <View style={styles.profileInfo}>
@@ -79,16 +114,13 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
           </View>
         </View>
 
-        {/* Account Settings */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>ACCOUNT SETTINGS</Text>
-
           <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate('EditProfile')}>
             <Ionicons name="person-outline" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Edit Profile</Text>
             <AntDesign name="right" size={16} color="#999" />
           </TouchableOpacity>
-
           <TouchableOpacity
             style={[styles.optionItem, styles.noBorder]}
             onPress={() => setShowLanguageDropdown(true)}
@@ -100,10 +132,8 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
           </TouchableOpacity>
         </View>
 
-        {/* App Preferences */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>APP PREFERENCES</Text>
-
           <View style={styles.optionItem}>
             <Ionicons name="notifications-outline" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Notifications</Text>
@@ -114,7 +144,6 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
               thumbColor="#fff"
             />
           </View>
-
           <View style={styles.optionItem}>
             <Ionicons name="location-outline" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Location Services</Text>
@@ -125,7 +154,6 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
               thumbColor="#fff"
             />
           </View>
-
           <View style={[styles.optionItem, styles.noBorder]}>
             <Ionicons name="moon-outline" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Dark Mode</Text>
@@ -138,16 +166,13 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
           </View>
         </View>
 
-        {/* Payment & Security */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>PAYMENT & SECURITY</Text>
-
           <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate('Payment')}>
             <MaterialIcons name="payment" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Payment Methods</Text>
             <AntDesign name="right" size={16} color="#999" />
           </TouchableOpacity>
-
           <View style={[styles.optionItem, styles.noBorder]}>
             <Ionicons name="finger-print" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Biometric Login</Text>
@@ -160,10 +185,8 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
           </View>
         </View>
 
-        {/* More */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>MORE</Text>
-
           <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate('ReferAndEarn')}>
             <Ionicons name="gift-outline" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Refer & Earn</Text>
@@ -172,13 +195,11 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
             </View>
             <AntDesign name="right" size={16} color="#999" />
           </TouchableOpacity>
-
           <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate('Help')}>
             <Feather name="help-circle" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Help & Support</Text>
             <AntDesign name="right" size={16} color="#999" />
           </TouchableOpacity>
-
           <TouchableOpacity style={[styles.optionItem, styles.noBorder]} onPress={() => navigation.navigate('Safety')}>
             <Ionicons name="shield-checkmark-outline" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Safety Tips</Text>
@@ -186,16 +207,13 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Legal */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>LEGAL</Text>
-
           <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate('Terms')}>
             <MaterialIcons name="description" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Terms & Conditions</Text>
             <AntDesign name="right" size={16} color="#999" />
           </TouchableOpacity>
-
           <TouchableOpacity style={[styles.optionItem, styles.noBorder]} onPress={() => navigation.navigate('Privacy')}>
             <Feather name="lock" size={22} color="#0089d8" />
             <Text style={styles.optionText}>Privacy Policy</Text>
@@ -203,7 +221,6 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Logout */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Sign Out</Text>
         </TouchableOpacity>
@@ -211,7 +228,6 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
         <Text style={styles.versionText}>App Version 4.2.7</Text>
       </ScrollView>
 
-      {/* Language Selection Modal */}
       <Modal
         visible={showLanguageDropdown}
         transparent={true}
@@ -226,7 +242,6 @@ const SettingScreen = ({ navigation, setIsLoggedIn, setUser }) => {
                 <Ionicons name="close" size={24} color="#555" />
               </TouchableOpacity>
             </View>
-
             <ScrollView style={styles.languageList}>
               {languages.map((language) => (
                 <TouchableOpacity
@@ -263,39 +278,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f8f8',
     paddingHorizontal: 15,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    backgroundColor: '#ffffff',
-    borderRadius: 24,
-    marginHorizontal: 16,
-    marginTop: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 10,
-    borderWidth: 1.5,
-    borderColor: 'rgba(0, 137, 216, 0.3)',
-  },
-  logo: {
-    width: 150,
-    height: 80,
-    borderRadius: 20,
-    borderWidth: 1.5,
-    borderColor: '#0c0d0dff',
-    shadowColor: '#0089d8',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-  },
-  backButton: {
-    position: 'absolute',
-    left: 10,
   },
   scrollView: {
     flex: 1,

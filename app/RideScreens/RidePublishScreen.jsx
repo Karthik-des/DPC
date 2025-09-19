@@ -5,6 +5,41 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import styles from './RidePublishStyles';
 
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+};
+
 const RidePublishScreen = ({ navigation }) => {
   const [comment, setComment] = useState('');
   const [isPublishing, setIsPublishing] = useState(false);
@@ -26,11 +61,18 @@ const RidePublishScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Animated.View entering={FadeIn.duration(500)}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <View style={additionalStyles.headerRow}>
+          <TouchableOpacity 
+            style={additionalStyles.backButton}
+            onPress={() => navigation.goBack()}
+            activeOpacity={0.7}
+          >
             <Ionicons name="arrow-back" size={24} color="#09C912" />
           </TouchableOpacity>
-          <Text style={styles.title}>Ready to publish your ride?</Text>
+          <View style={additionalStyles.headerContent}>
+            <Text style={additionalStyles.headerTitle}>Publish Your Ride</Text>
+            <Text style={additionalStyles.subHeader}>Add details for passengers</Text>
+          </View>
         </View>
 
         <Text style={styles.subtitle}>
