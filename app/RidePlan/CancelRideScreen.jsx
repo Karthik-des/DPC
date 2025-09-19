@@ -1,52 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { View, Text, TouchableOpacity, Alert, ScrollView, StyleSheet, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+};
 
 const CancelRideScreen = ({ navigation, route }) => {
   const { rideData, onCancelRide, onResetCancellations } = route.params || {};
   const [selectedReason, setSelectedReason] = useState(null);
-  const [userCancellationCount, setUserCancellationCount] = useState(0);
+  const [driverCancellationCount, setDriverCancellationCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isAccountBlocked, setIsAccountBlocked] = useState(false);
   const [maxCancellations, setMaxCancellations] = useState(3);
+  const hasLoaded = useRef(false);
 
-  // Load cancellation count and account status from AsyncStorage when component mounts
-  useEffect(() => {
-    loadUserData();
-  }, []);
+  console.log('CancelRideScreen mounted with rideData:', rideData);
 
-  const loadUserData = async () => {
+  const loadUserData = useCallback(async () => {
+    if (hasLoaded.current) {
+      console.log('loadUserData skipped: already executed');
+      return;
+    }
+    hasLoaded.current = true;
     try {
-      const savedCount = await AsyncStorage.getItem('userCancellationCount');
+      console.log('loadUserData started');
+      const savedCount = await AsyncStorage.getItem('driverCancellationCount');
       const accountBlocked = await AsyncStorage.getItem('accountBlocked');
       const savedMaxCancellations = await AsyncStorage.getItem('maxCancellations');
-      
-      const count = savedCount ? parseInt(savedCount) : 0;
+
+      const count = savedCount !== null ? parseInt(savedCount) : 0;
       const blocked = accountBlocked === 'true';
-      const max = savedMaxCancellations ? parseInt(savedMaxCancellations) : 3;
-      
-      setUserCancellationCount(count);
+      const max = savedMaxCancellations !== null ? parseInt(savedMaxCancellations) : 3;
+
+      setDriverCancellationCount(count);
       setIsAccountBlocked(blocked);
       setMaxCancellations(max);
       setIsLoading(false);
+      console.log('checkAccountBlocked:', {
+        isAccountBlocked: blocked,
+        driverCancellationCount: count,
+        maxCancellations: max,
+        result: blocked || count >= max,
+      });
     } catch (error) {
-      console.error('Error loading user data:', error);
-      Alert.alert('Error', 'Failed to load user data. Please try again.');
-      setUserCancellationCount(0);
+      console.error('Error loading user data:', error.message, error.stack);
+      Alert.alert('Error', 'Failed to load driver data. Please try again.');
+      setDriverCancellationCount(0);
       setIsAccountBlocked(false);
       setMaxCancellations(3);
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    console.log('useEffect triggered for loadUserData in CancelRideScreen');
+    loadUserData();
+    return () => {
+      console.log('CancelRideScreen unmounted');
+    };
+  }, [loadUserData]);
 
   const saveCancellationCount = async (count) => {
     try {
-      await AsyncStorage.setItem('userCancellationCount', count.toString());
-      setUserCancellationCount(count);
+      await AsyncStorage.setItem('driverCancellationCount', count.toString());
+      setDriverCancellationCount(count);
     } catch (error) {
-      console.error('Error saving cancellation count:', error);
-      Alert.alert('Error', 'Failed to save cancellation count.');
+      console.error('Error saving driver cancellation count:', error.message);
+      Alert.alert('Error', 'Failed to save driver cancellation count.');
     }
   };
 
@@ -55,8 +108,8 @@ const CancelRideScreen = ({ navigation, route }) => {
       await AsyncStorage.setItem('accountBlocked', blocked.toString());
       setIsAccountBlocked(blocked);
     } catch (error) {
-      console.error('Error setting account blocked status:', error);
-      Alert.alert('Error', 'Failed to update account status.');
+      console.error('Error setting account blocked status:', error.message);
+      Alert.alert('Error', 'Failed to update driver account status.');
     }
   };
 
@@ -65,12 +118,12 @@ const CancelRideScreen = ({ navigation, route }) => {
       await AsyncStorage.setItem('maxCancellations', max.toString());
       setMaxCancellations(max);
     } catch (error) {
-      console.error('Error saving max cancellations:', error);
-      Alert.alert('Error', 'Failed to save cancellation limit.');
+      console.error('Error saving max cancellations:', error.message);
+      Alert.alert('Error', 'Failed to save driver cancellation limit.');
     }
   };
 
-  const remainingChances = Math.max(0, maxCancellations - userCancellationCount);
+  const remainingChances = Math.max(0, maxCancellations - driverCancellationCount);
 
   const cancellationReasons = [
     { id: 1, reason: 'Change of plans', icon: 'calendar-outline' },
@@ -78,7 +131,7 @@ const CancelRideScreen = ({ navigation, route }) => {
     { id: 3, reason: 'Emergency situation', icon: 'warning-outline' },
     { id: 4, reason: 'Weather conditions', icon: 'rainy-outline' },
     { id: 5, reason: 'Traffic concerns', icon: 'speedometer-outline' },
-    { id: 6, reason: 'Other reason', icon: 'ellipsis-horizontal-outline' }
+    { id: 6, reason: 'Other reason', icon: 'ellipsis-horizontal-outline' },
   ];
 
   const handleCancelRide = () => {
@@ -87,7 +140,24 @@ const CancelRideScreen = ({ navigation, route }) => {
       return;
     }
 
-    if (isAccountBlocked || userCancellationCount >= maxCancellations) {
+    if (!rideData.driverPosted) {
+      // Allow cancellation for user-booked rides without restrictions
+      Alert.alert(
+        'Confirm Cancellation',
+        `Reason: ${cancellationReasons.find((r) => r.id === selectedReason)?.reason || 'Not specified'}\n\nAre you sure you want to cancel this ride?`,
+        [
+          { text: 'Keep My Ride', style: 'cancel' },
+          {
+            text: 'Cancel Ride',
+            style: 'destructive',
+            onPress: () => confirmCancellation(cancellationReasons.find((r) => r.id === selectedReason)?.reason || 'Not specified'),
+          },
+        ]
+      );
+      return;
+    }
+
+    if (isAccountBlocked || driverCancellationCount >= maxCancellations) {
       showAccountBlockedAlert();
       return;
     }
@@ -97,33 +167,33 @@ const CancelRideScreen = ({ navigation, route }) => {
       return;
     }
 
-    const selectedReasonText = cancellationReasons.find(r => r.id === selectedReason)?.reason;
+    const selectedReasonText = cancellationReasons.find((r) => r.id === selectedReason)?.reason;
 
     if (remainingChances <= 1) {
       Alert.alert(
-        'Final Warning - Account Will Be Blocked',
-        `⚠️ This is your ${maxCancellations === 1 ? 'only' : 'final'} cancellation chance!\n\nReason: ${selectedReasonText}\n\nYour account will be temporarily blocked after this cancellation. You'll need to contact customer support to restore access with 3 fresh chances.\n\nAre you sure you want to continue?`,
+        'Final Warning - Driver Account Will Be Blocked',
+        `⚠️ This is your ${maxCancellations === 1 ? 'only' : 'final'} cancellation chance!\n\nReason: ${selectedReasonText}\n\nYour driver account will be temporarily blocked after this cancellation. You'll need to contact customer support to restore access with 3 fresh chances.\n\nAre you sure you want to continue?`,
         [
           { text: 'Keep My Ride', style: 'cancel' },
           {
             text: 'Cancel Anyway',
             style: 'destructive',
-            onPress: () => confirmFinalCancellation(selectedReasonText)
-          }
+            onPress: () => confirmFinalCancellation(selectedReasonText),
+          },
         ]
       );
     } else {
       const newRemainingChances = remainingChances - 1;
       Alert.alert(
         'Confirm Cancellation',
-        `Reason: ${selectedReasonText}\n\n⚠️ You will have ${newRemainingChances} cancellation${newRemainingChances !== 1 ? 's' : ''} remaining after this.\n\nAfter ${maxCancellations} total cancellations, your account will be temporarily blocked.`,
+        `Reason: ${selectedReasonText}\n\n⚠️ You will have ${newRemainingChances} cancellation${newRemainingChances !== 1 ? 's' : ''} remaining after this.\n\nAfter ${maxCancellations} total cancellations, your driver account will be temporarily blocked.`,
         [
           { text: 'Keep My Ride', style: 'cancel' },
           {
             text: 'Cancel Ride',
             style: 'destructive',
-            onPress: () => confirmCancellation(selectedReasonText)
-          }
+            onPress: () => confirmCancellation(selectedReasonText),
+          },
         ]
       );
     }
@@ -131,42 +201,47 @@ const CancelRideScreen = ({ navigation, route }) => {
 
   const confirmCancellation = async (reason) => {
     try {
-      const newCount = userCancellationCount + 1;
-      await saveCancellationCount(newCount);
+      let newCount = driverCancellationCount;
+      if (rideData.driverPosted) {
+        newCount = driverCancellationCount + 1;
+        await saveCancellationCount(newCount);
+      }
 
       const updatedRideData = {
         ...rideData,
         status: 'Cancelled',
         cancellationReason: reason,
         cancelledAt: new Date().toISOString(),
-        cancellationNumber: newCount
+        cancellationNumber: rideData.driverPosted ? newCount : undefined,
       };
 
       onCancelRide(updatedRideData);
 
       const remainingAfterThis = maxCancellations - newCount;
-      
+
       Alert.alert(
         'Ride Cancelled Successfully',
-        `Your ride has been cancelled.\n\n${remainingAfterThis > 0 
-          ? `⚠️ You have ${remainingAfterThis} cancellation${remainingAfterThis !== 1 ? 's' : ''} remaining before your account gets blocked.`
-          : '✅ Cancellation completed.'
-        }`,
+        rideData.driverPosted
+          ? `Your ride has been cancelled.\n\n${remainingAfterThis > 0
+              ? `⚠️ You have ${remainingAfterThis} cancellation${remainingAfterThis !== 1 ? 's' : ''} remaining before your driver account gets blocked.`
+              : '✅ Cancellation completed.'
+            }`
+          : 'Your ride has been cancelled.',
         [
           {
-            text: remainingAfterThis === 0 ? 'View History' : 'OK',
+            text: remainingAfterThis === 0 && rideData.driverPosted ? 'View History' : 'OK',
             onPress: () => {
-              if (remainingAfterThis === 0) {
-                navigation.navigate('CancellationTracker');
+              if (remainingAfterThis === 0 && rideData.driverPosted) {
+                navigation.navigate('YourRides', { filter: 'Cancelled' });
               } else {
                 navigation.goBack();
               }
-            }
-          }
+            },
+          },
         ]
       );
     } catch (error) {
-      console.error('Error during cancellation:', error);
+      console.error('Error during cancellation:', error.message);
       Alert.alert('Error', 'Failed to cancel ride. Please try again.');
     }
   };
@@ -175,83 +250,94 @@ const CancelRideScreen = ({ navigation, route }) => {
     try {
       await saveCancellationCount(maxCancellations);
       await setAccountBlockedStatus(true);
-      
+
       const updatedRideData = {
         ...rideData,
         status: 'Cancelled',
         cancellationReason: reason,
         cancelledAt: new Date().toISOString(),
-        cancellationNumber: maxCancellations
+        cancellationNumber: maxCancellations,
       };
 
       onCancelRide(updatedRideData);
 
       Alert.alert(
-        'Ride Cancelled - Account Blocked',
-        `Your ride has been cancelled.\n\n🚫 Your account is now temporarily blocked due to reaching the ${maxCancellations}-cancellation limit. Please contact customer support using the button below to restore access with 3 fresh chances.`,
+        'Ride Cancelled - Driver Account Blocked',
+        `Your ride has been cancelled.\n\n🚫 Your driver account is now temporarily blocked due to reaching the ${maxCancellations}-cancellation limit. Please contact customer support to restore access with 3 fresh chances.`,
         [
           {
-            text: 'Go Back',
-            style: 'cancel',
-            onPress: () => navigation.goBack()
-          },
-          {
             text: 'OK',
-            onPress: () => navigation.navigate('CancellationTracker')
-          }
+            onPress: () => navigation.navigate('YourRides', { filter: 'Cancelled' }),
+          },
         ]
       );
     } catch (error) {
-      console.error('Error during final cancellation:', error);
+      console.error('Error during final cancellation:', error.message);
       Alert.alert('Error', 'Failed to cancel ride. Please try again.');
     }
   };
 
-  const handleCustomerSupport = async () => {
+  const handleCustomerSupport = () => {
     try {
-      // Reset to exactly 3 fresh cancellation chances
-      await saveMaxCancellations(3);
-      await setAccountBlockedStatus(false);
-      await saveCancellationCount(0);
-      
-      if (typeof onResetCancellations === 'function') {
-        onResetCancellations();
-      }
+      navigation.navigate('SupportChatScreen', { rideData: rideData || {}, onAccountRestored: resetAccount });
+      console.log('Navigating to SupportChatScreen with rideData:', rideData || {});
+    } catch (error) {
+      console.error('Navigation error:', error.message);
+      Alert.alert('Navigation Error', 'Unable to open support chat. Please try again.');
+    }
+  };
 
+  const resetAccount = async () => {
+    try {
+      await saveCancellationCount(0);
+      await setAccountBlockedStatus(false);
+      await saveMaxCancellations(3);
       Alert.alert(
         'Account Restored',
-        'Customer support has reviewed your account and provided exactly 3 fresh cancellation chances.\n\nYou can now book and try to avoid cancellations rides again.',
+        'Your driver account is restored with 3 fresh chances.',
         [
           {
             text: 'OK',
-            onPress: () => navigation.goBack()
-          }
+            onPress: () => navigation.navigate('YourRides'),
+          },
         ]
       );
     } catch (error) {
-      console.error('Error restoring account:', error);
+      console.error('Error resetting account:', error.message);
       Alert.alert('Error', 'Failed to restore account. Please try again.');
     }
   };
 
   const showAccountBlockedAlert = () => {
     Alert.alert(
-      '🚫 Account Temporarily Blocked',
-      `You have reached the maximum limit of ${maxCancellations} ride cancellations.\n\nYour account has been temporarily blocked to ensure service quality for all users.\n\n📞 Contact customer support to restore your account with 3 fresh cancellation chances.`,
+      '🚫 Driver Account Temporarily Blocked',
+      `You have reached the maximum limit of ${maxCancellations} ride cancellations.\n\nYour driver account has been temporarily blocked to ensure service quality for all users.\n\n📞 Contact customer support to restore your driver account with 3 fresh chances.`,
       [
         {
           text: 'View Cancellation History',
-          onPress: () => navigation.navigate('CancellationTracker')
+          onPress: () => navigation.navigate('CancellationHistory', { 
+            driverCancellationCount, 
+            maxCancellations, 
+            isAccountBlocked 
+          }),
         },
         {
-          text: 'Contact Customer Support',
-          onPress: handleCustomerSupport
+          text: 'Chat Customer Support',
+          onPress: () => handleCustomerSupport(),
         },
         {
-          text: 'Go Back',
+          text: 'Call Customer Support',
+          onPress: () => {
+            Linking.openURL('tel:+919876543210').catch((err) => {
+              console.error('Error opening phone dialer:', err);
+              Alert.alert('Error', 'Unable to initiate call. Please try again.');
+            });
+          },
+        },
+        {
+          text: 'Cancel',
           style: 'cancel',
-          onPress: () => navigation.goBack()
-        }
+        },
       ]
     );
   };
@@ -261,8 +347,8 @@ const CancelRideScreen = ({ navigation, route }) => {
       await saveCancellationCount(count);
       await setAccountBlockedStatus(count >= maxCancellations);
     } catch (error) {
-      console.error('Error setting test cancellation count:', error);
-      Alert.alert('Error', 'Failed to set test cancellation count.');
+      console.error('Error setting test driver cancellation count:', error.message);
+      Alert.alert('Error', 'Failed to set test driver cancellation count.');
     }
   };
 
@@ -276,135 +362,161 @@ const CancelRideScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
+      <View style={additionalStyles.headerRow}>
+        <TouchableOpacity
+          style={additionalStyles.backButton}
           onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color="#1E293B" />
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Cancel Ride</Text>
-        <TouchableOpacity 
-          style={styles.historyButton}
-          onPress={() => navigation.navigate('CancellationTracker')}
+        <View style={additionalStyles.headerContent}>
+          <Text style={additionalStyles.headerTitle}>Cancel Ride</Text>
+          <Text style={additionalStyles.subHeader}>
+            {rideData && rideData.driverPosted
+              ? `${remainingChances} of ${maxCancellations} cancellations remaining`
+              : 'No cancellation limit for user-booked rides'}
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={additionalStyles.backButton}
+          onPress={() => navigation.navigate('CancellationHistory', { 
+            driverCancellationCount, 
+            maxCancellations, 
+            isAccountBlocked 
+          })}
+          activeOpacity={0.7}
         >
           <Ionicons name="time-outline" size={24} color="#3B82F6" />
         </TouchableOpacity>
       </View>
 
-      <ScrollView 
-        style={styles.scrollView} 
+      <ScrollView
+        style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <View style={[
-          styles.warningCard,
-          isAccountBlocked || userCancellationCount >= maxCancellations
-            ? { backgroundColor: '#FEF2F2', borderColor: '#FECACA' }
-            : remainingChances === 1 
-            ? { backgroundColor: '#FEF2F2', borderColor: '#FECACA' }
-            : remainingChances === 2 
-            ? { backgroundColor: '#FFFBEB', borderColor: '#FED7AA' }
-            : { backgroundColor: '#ECFDF5', borderColor: '#D1FAE5' }
-        ]}>
-          <View style={styles.warningContent}>
-            <View style={styles.warningHeader}>
-              <Ionicons 
-                name={
-                  isAccountBlocked || userCancellationCount >= maxCancellations 
-                    ? "lock-closed-outline"
-                    : remainingChances <= 1 
-                    ? "warning-outline"
-                    : remainingChances === 2 
-                    ? "alert-circle-outline"
-                    : "information-circle-outline"
-                } 
-                size={24} 
-                color={
-                  isAccountBlocked || userCancellationCount >= maxCancellations || remainingChances <= 1 
-                    ? "#EF4444"
-                    : remainingChances === 2 
-                    ? "#F59E0B"
-                    : "#10B981"
-                } 
-              />
-              <Text style={[
-                styles.warningText,
-                { color: 
-                  isAccountBlocked || userCancellationCount >= maxCancellations || remainingChances <= 1 
-                    ? "#DC2626"
-                    : remainingChances === 2 
-                    ? "#92400E"
-                    : "#047857"
-                }
-              ]}>
-                {isAccountBlocked || userCancellationCount >= maxCancellations
-                  ? `🚫 ACCOUNT BLOCKED: You have reached the ${maxCancellations}-cancellation limit. Contact customer support to restore access with 3 fresh chances.`
-                  : remainingChances === 0
-                  ? `🚫 ACCOUNT WILL BE BLOCKED: You have used all ${maxCancellations} cancellations. Contact support to restore access with 3 fresh chances.`
-                  : remainingChances === 1
-                  ? `⚠️ FINAL WARNING: You have only 1 cancellation remaining! Your account will be blocked after the next cancellation.`
-                  : remainingChances === 2
-                  ? `⚠️ CAUTION: You have 2 cancellations remaining. Your account will be blocked after ${maxCancellations} total cancellations.`
-                  : `ℹ️ You have ${remainingChances} cancellations remaining out of ${maxCancellations}. Use them wisely.`
-                }
-              </Text>
-            </View>
-            <View style={styles.actionButtonsContainer}>
-              <TouchableOpacity 
-                style={styles.viewHistoryButton}
-                onPress={() => navigation.navigate('CancellationTracker')}
-              >
-                <Ionicons name="time-outline" size={16} color="#3B82F6" />
-                <Text style={styles.viewHistoryText}>View History</Text>
-                <Ionicons name="chevron-forward" size={16} color="#3B82F6" />
-              </TouchableOpacity>
-              {(isAccountBlocked || userCancellationCount >= maxCancellations) && (
-                <TouchableOpacity 
-                  style={styles.supportButton}
-                  onPress={handleCustomerSupport}
+        {rideData && rideData.driverPosted && (
+          <View
+            style={[
+              styles.warningCard,
+              isAccountBlocked || driverCancellationCount >= maxCancellations
+                ? { backgroundColor: '#FEF2F2', borderColor: '#FECACA' }
+                : remainingChances === 1
+                ? { backgroundColor: '#FEF2F2', borderColor: '#FECACA' }
+                : remainingChances === 2
+                ? { backgroundColor: '#FFFBEB', borderColor: '#FED7AA' }
+                : { backgroundColor: '#ECFDF5', borderColor: '#D1FAE5' },
+            ]}
+          >
+            <View style={styles.warningContent}>
+              <View style={styles.warningHeader}>
+                <Ionicons
+                  name={
+                    isAccountBlocked || driverCancellationCount >= maxCancellations
+                      ? 'lock-closed-outline'
+                      : remainingChances <= 1
+                      ? 'warning-outline'
+                      : remainingChances === 2
+                      ? 'alert-circle-outline'
+                      : 'information-circle-outline'
+                  }
+                  size={24}
+                  color={
+                    isAccountBlocked || driverCancellationCount >= maxCancellations || remainingChances <= 1
+                      ? '#EF4444'
+                      : remainingChances === 2
+                      ? '#F59E0B'
+                      : '#10B981'
+                  }
+                />
+                <Text
+                  style={[
+                    styles.warningText,
+                    {
+                      color:
+                        isAccountBlocked || driverCancellationCount >= maxCancellations || remainingChances <= 1
+                          ? '#DC2626'
+                          : remainingChances === 2
+                          ? '#92400E'
+                          : '#047857',
+                    },
+                  ]}
                 >
-                  <Ionicons name="headset-outline" size={16} color="#FFFFFF" />
-                  <Text style={styles.supportButtonText}>Contact Support</Text>
-                  <Ionicons name="chevron-forward" size={16} color="#FFFFFF" />
+                  {isAccountBlocked || driverCancellationCount >= maxCancellations
+                    ? `🚫 DRIVER ACCOUNT BLOCKED: You have reached the ${maxCancellations}-cancellation limit. Contact customer support to restore access with 3 fresh chances.`
+                    : remainingChances === 0
+                    ? `🚫 DRIVER ACCOUNT WILL BE BLOCKED: You have used all ${maxCancellations} cancellations. Contact support to restore access with 3 fresh chances.`
+                    : remainingChances === 1
+                    ? `⚠️ FINAL WARNING: You have only 1 cancellation remaining! Your driver account will be blocked after the next cancellation.`
+                    : remainingChances === 2
+                    ? `⚠️ CAUTION: You have 2 cancellations remaining. Your driver account will be blocked after ${maxCancellations} total cancellations.`
+                    : `ℹ️ You have ${remainingChances} cancellations remaining out of ${maxCancellations}. Use them wisely.`}
+                </Text>
+              </View>
+              <View style={styles.actionButtonsContainer}>
+                <TouchableOpacity
+                  style={styles.viewHistoryButton}
+                  onPress={() => navigation.navigate('CancellationHistory', { 
+                    driverCancellationCount, 
+                    maxCancellations, 
+                    isAccountBlocked 
+                  })}
+                >
+                  <Ionicons name="time-outline" size={16} color="#3B82F6" />
+                  <Text style={styles.viewHistoryText}>View History</Text>
+                  <Ionicons name="chevron-forward" size={16} color="#3B82F6" />
                 </TouchableOpacity>
-              )}
+                {(isAccountBlocked || driverCancellationCount >= maxCancellations) && (
+                  <TouchableOpacity
+                    style={styles.supportButton}
+                    onPress={handleCustomerSupport}
+                  >
+                    <Ionicons name="headset-outline" size={16} color="#FFFFFF" />
+                    <Text style={styles.supportButtonText}>Contact Support</Text>
+                    <Ionicons name="chevron-forward" size={16} color="#FFFFFF" />
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
           </View>
-        </View>
+        )}
 
-        <View style={styles.testContainer}>
-          <Text style={styles.testTitle}>Test Scenarios (Remove in production)</Text>
-          <View style={styles.testButtonsRow}>
-            <TouchableOpacity 
-              style={[styles.testButton, { backgroundColor: '#10B981' }]}
-              onPress={() => setTestCancellationCount(0)}
-            >
-              <Text style={styles.testButtonText}>0/3 Used</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.testButton, { backgroundColor: '#F59E0B' }]}
-              onPress={() => setTestCancellationCount(1)}
-            >
-              <Text style={styles.testButtonText}>1/3 Used</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.testButton, { backgroundColor: '#EF4444' }]}
-              onPress={() => setTestCancellationCount(2)}
-            >
-              <Text style={styles.testButtonText}>2/3 Used</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.testButton, { backgroundColor: '#6B7280' }]}
-              onPress={() => setTestCancellationCount(3)}
-            >
-              <Text style={styles.testButtonText}>Blocked</Text>
-            </TouchableOpacity>
+        {rideData && rideData.driverPosted && (
+          <View style={styles.testContainer}>
+            <Text style={styles.testTitle}>Test Scenarios (Remove in production)</Text>
+            <View style={styles.testButtonsRow}>
+              <TouchableOpacity
+                style={[styles.testButton, { backgroundColor: '#10B981' }]}
+                onPress={() => setTestCancellationCount(0)}
+              >
+                <Text style={styles.testButtonText}>0/3 Used</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.testButton, { backgroundColor: '#F59E0B' }]}
+                onPress={() => setTestCancellationCount(1)}
+              >
+                <Text style={styles.testButtonText}>1/3 Used</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.testButton, { backgroundColor: '#EF4444' }]}
+                onPress={() => setTestCancellationCount(2)}
+              >
+                <Text style={styles.testButtonText}>2/3 Used</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.testButton, { backgroundColor: '#6B7280' }]}
+                onPress={() => setTestCancellationCount(3)}
+              >
+                <Text style={styles.testButtonText}>Blocked</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.testStatus}>
+              Current: {driverCancellationCount}/{maxCancellations} cancellations •{' '}
+              {isAccountBlocked ? 'BLOCKED' : 'ACTIVE'}
+            </Text>
           </View>
-          <Text style={styles.testStatus}>
-            Current: {userCancellationCount}/{maxCancellations} cancellations • {isAccountBlocked ? 'BLOCKED' : 'ACTIVE'}
-          </Text>
-        </View>
+        )}
 
         {rideData ? (
           <View style={styles.rideInfoCard}>
@@ -421,7 +533,9 @@ const CancelRideScreen = ({ navigation, route }) => {
               </View>
             </View>
             <View style={styles.rideDetailsRow}>
-              <Text style={styles.rideDetail}>{rideData.date} • {rideData.time}</Text>
+              <Text style={styles.rideDetail}>
+                {rideData.date} • {rideData.time}
+              </Text>
               <Text style={styles.costText}>{rideData.cost}</Text>
             </View>
           </View>
@@ -432,74 +546,73 @@ const CancelRideScreen = ({ navigation, route }) => {
           </View>
         )}
 
-        {!isAccountBlocked && userCancellationCount < maxCancellations && (
-          <View style={styles.reasonCard}>
-            <Text style={styles.sectionTitle}>Reason for Cancellation</Text>
-            {cancellationReasons.map((item) => (
-              <TouchableOpacity
-                key={item.id}
-                style={[
-                  styles.reasonItem,
-                  selectedReason === item.id && styles.selectedReason
-                ]}
-                onPress={() => setSelectedReason(item.id)}
-              >
-                <View style={styles.reasonLeft}>
-                  <Ionicons 
-                    name={item.icon} 
-                    size={20} 
-                    color={selectedReason === item.id ? '#3B82F6' : '#64748B'} 
-                  />
-                  <Text style={[
-                    styles.reasonText,
-                    selectedReason === item.id && styles.selectedReasonText
-                  ]}>
-                    {item.reason}
-                  </Text>
-                </View>
-                <Ionicons 
-                  name={selectedReason === item.id ? 'radio-button-on' : 'radio-button-off'} 
-                  size={20} 
-                  color={selectedReason === item.id ? '#3B82F6' : '#64748B'} 
+        <View style={styles.reasonCard}>
+          <Text style={styles.sectionTitle}>Reason for Cancellation</Text>
+          {cancellationReasons.map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              style={[styles.reasonItem, selectedReason === item.id && styles.selectedReason]}
+              onPress={() => setSelectedReason(item.id)}
+            >
+              <View style={styles.reasonLeft}>
+                <Ionicons
+                  name={item.icon}
+                  size={20}
+                  color={selectedReason === item.id ? '#3B82F6' : '#64748B'}
                 />
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
+                <Text
+                  style={[
+                    styles.reasonText,
+                    selectedReason === item.id && styles.selectedReasonText,
+                  ]}
+                >
+                  {item.reason}
+                </Text>
+              </View>
+              <Ionicons
+                name={selectedReason === item.id ? 'radio-button-on' : 'radio-button-off'}
+                size={20}
+                color={selectedReason === item.id ? '#3B82F6' : '#64748B'}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
 
-        {(isAccountBlocked || userCancellationCount >= maxCancellations) && (
+        {(isAccountBlocked || driverCancellationCount >= maxCancellations) && rideData.driverPosted && (
           <View style={styles.blockedMessageCard}>
             <Ionicons name="lock-closed" size={48} color="#EF4444" />
-            <Text style={styles.blockedTitle}>Account Temporarily Blocked</Text>
+            <Text style={styles.blockedTitle}>Driver Account Temporarily Blocked</Text>
             <Text style={styles.blockedMessage}>
-              You cannot cancel more rides as you've reached the {maxCancellations}-cancellation limit. 
-              Contact customer support to restore your account with 3 fresh cancellation chances.
+              You cannot cancel more driver rides as you've reached the {maxCancellations}
+              -cancellation limit. Contact customer support to restore your driver account with 3
+              fresh cancellation chances.
             </Text>
           </View>
         )}
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
             styles.cancelRideButton,
-            (isAccountBlocked || userCancellationCount >= maxCancellations || !rideData) && 
-            { backgroundColor: '#9CA3AF', opacity: 0.6 }
+            (rideData && rideData.driverPosted && (isAccountBlocked || driverCancellationCount >= maxCancellations) || !rideData) && {
+              backgroundColor: '#9CA3AF',
+              opacity: 0.6,
+            },
           ]}
           onPress={handleCancelRide}
-          disabled={isAccountBlocked || userCancellationCount >= maxCancellations || !rideData}
+          disabled={rideData && rideData.driverPosted && (isAccountBlocked || driverCancellationCount >= maxCancellations) || !rideData}
         >
           <Text style={styles.cancelRideButtonText}>
-            {isAccountBlocked || userCancellationCount >= maxCancellations 
-              ? 'Account Blocked - Contact Support' 
+            {rideData && rideData.driverPosted && (isAccountBlocked || driverCancellationCount >= maxCancellations)
+              ? 'Driver Account Blocked - Contact Support'
               : !rideData
               ? 'No Ride Selected'
-              : 'Cancel This Ride'
-            }
+              : 'Cancel This Ride'}
           </Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={styles.keepRideButton}
           onPress={() => navigation.goBack()}
         >
@@ -514,28 +627,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F8FAFC',
-  },
-  header: {
-    backgroundColor: '#FFFFFF',
-    paddingTop: 60,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
-  },
-  backButton: {
-    padding: 8,
-  },
-  historyButton: {
-    padding: 8,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
   },
   scrollView: {
     flex: 1,
@@ -793,15 +884,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   keepRideButton: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#10B981',
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   keepRideButtonText: {
-    color: '#1E293B',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },

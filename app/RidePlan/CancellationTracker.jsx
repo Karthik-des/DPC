@@ -1,44 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Consistent header styles from YourRides
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+};
 
 const CancellationTracker = ({ navigation, route }) => {
-  // This should come from your user management system/AsyncStorage
   const [userCancellationCount, setUserCancellationCount] = useState(0);
   const [cancellationHistory, setCancellationHistory] = useState([]);
-  
   const maxCancellations = 3;
-  const remainingChances = maxCancellations - userCancellationCount;
+  const remainingChances = Math.max(0, maxCancellations - userCancellationCount);
 
-  // Mock data - replace with actual data from your backend/AsyncStorage
   useEffect(() => {
-    // Load user's cancellation data
-    // AsyncStorage.getItem('userCancellationCount').then(count => {
-    //   setUserCancellationCount(parseInt(count) || 0);
-    // });
-    
-    // Mock cancellation history
-    setCancellationHistory([
-      {
-        id: 1,
-        date: '2024-01-15',
-        from: 'Downtown Plaza',
-        to: 'Airport Terminal',
-        reason: 'Change of plans',
-        timestamp: '10:30 AM'
-      },
-      {
-        id: 2,
-        date: '2024-01-10',
-        from: 'Home',
-        to: 'Office Complex',
-        reason: 'Emergency situation',
-        timestamp: '8:15 AM'
+    console.log('useEffect triggered for CancellationTracker');
+    const loadData = async () => {
+      try {
+        const savedCount = await AsyncStorage.getItem('userCancellationCount');
+        const count = savedCount ? parseInt(savedCount) : 0;
+        setUserCancellationCount(count);
+        // Load cancellation history (mock for now, replace with backend/AsyncStorage)
+        setCancellationHistory([
+          {
+            id: 1,
+            date: '2024-01-15',
+            from: 'Downtown Plaza',
+            to: 'Airport Terminal',
+            reason: 'Change of plans',
+            timestamp: '10:30 AM',
+          },
+          {
+            id: 2,
+            date: '2024-01-10',
+            from: 'Home',
+            to: 'Office Complex',
+            reason: 'Emergency situation',
+            timestamp: '8:15 AM',
+          },
+        ]);
+      } catch (error) {
+        console.error('Error loading cancellation data:', error);
       }
-    ]);
-    
-    // Set mock cancellation count for demo
-    setUserCancellationCount(2);
+    };
+    loadData();
   }, []);
 
   const getStatusColor = () => {
@@ -54,51 +91,34 @@ const CancellationTracker = ({ navigation, route }) => {
   };
 
   const handleContactSupport = () => {
-    // Navigate to support screen or handle contact
-    // navigation.navigate('Support');
-    console.log('Contact support pressed');
+    try {
+      navigation.navigate('SupportChatScreen', { rideData: {} });
+      console.log('Navigating to SupportChatScreen from CancellationTracker');
+    } catch (error) {
+      console.error('Navigation error:', error);
+      Alert.alert('Navigation Error', 'Unable to open support chat. Please try again.');
+    }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
+      <View style={additionalStyles.headerRow}>
+        <TouchableOpacity
+          style={additionalStyles.backButton}
           onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color="#1E293B" />
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Cancellation History</Text>
-        <View style={styles.placeholder} />
+        <View style={additionalStyles.headerContent}>
+          <Text style={additionalStyles.headerTitle}>Cancellation History</Text>
+          <Text style={additionalStyles.subHeader}>
+            {userCancellationCount} of {maxCancellations} cancellations used
+          </Text>
+        </View>
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Test Buttons - Remove in production */}
-        <View style={styles.testContainer}>
-          <Text style={styles.testTitle}>Test Scenarios (Remove in production)</Text>
-          <View style={styles.testButtonsRow}>
-            <TouchableOpacity 
-              style={[styles.testButton, { backgroundColor: '#10B981' }]}
-              onPress={() => setUserCancellationCount(0)}
-            >
-              <Text style={styles.testButtonText}>0/3 Used</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.testButton, { backgroundColor: '#F59E0B' }]}
-              onPress={() => setUserCancellationCount(2)}
-            >
-              <Text style={styles.testButtonText}>2/3 Used</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.testButton, { backgroundColor: '#EF4444' }]}
-              onPress={() => setUserCancellationCount(3)}
-            >
-              <Text style={styles.testButtonText}>Blocked</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Status Card */}
         <View style={styles.statusCard}>
           <View style={styles.statusHeader}>
             <View style={[styles.statusIndicator, { backgroundColor: getStatusColor() }]} />
@@ -113,7 +133,7 @@ const CancellationTracker = ({ navigation, route }) => {
             <View style={styles.counterDivider} />
             <View style={styles.counterItem}>
               <Text style={[styles.counterNumber, { color: getStatusColor() }]}>
-                {Math.max(0, remainingChances)}
+                {remainingChances}
               </Text>
               <Text style={styles.counterLabel}>Remaining</Text>
             </View>
@@ -130,7 +150,6 @@ const CancellationTracker = ({ navigation, route }) => {
           )}
         </View>
 
-        {/* Warning Messages */}
         {remainingChances === 3 && (
           <View style={[styles.warningCard, { backgroundColor: '#ECFDF5', borderColor: '#D1FAE5' }]}>
             <Ionicons name="information-circle-outline" size={24} color="#10B981" />
@@ -167,7 +186,6 @@ const CancellationTracker = ({ navigation, route }) => {
           </View>
         )}
 
-        {/* Policy Information */}
         <View style={styles.policyCard}>
           <Text style={styles.sectionTitle}>Cancellation Policy</Text>
           <View style={styles.policyItem}>
@@ -190,7 +208,6 @@ const CancellationTracker = ({ navigation, route }) => {
           </View>
         </View>
 
-        {/* Cancellation History */}
         {cancellationHistory.length > 0 && (
           <View style={styles.historyCard}>
             <Text style={styles.sectionTitle}>Recent Cancellations</Text>
@@ -233,28 +250,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F8FAFC',
-  },
-  header: {
-    backgroundColor: '#FFFFFF',
-    paddingTop: 60,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
-  },
-  backButton: {
-    padding: 8,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1E293B',
-  },
-  placeholder: {
-    width: 40,
   },
   scrollView: {
     flex: 1,
@@ -452,36 +447,6 @@ const styles = StyleSheet.create({
     color: '#64748B',
     marginTop: 8,
     textAlign: 'center',
-  },
-  // Test styles - Remove in production
-  testContainer: {
-    backgroundColor: '#F3F4F6',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
-  },
-  testTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 12,
-  },
-  testButtonsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  testButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 6,
-    flex: 1,
-    marginHorizontal: 4,
-    alignItems: 'center',
-  },
-  testButtonText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
   },
 });
 

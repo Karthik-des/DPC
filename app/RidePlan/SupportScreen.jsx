@@ -12,6 +12,42 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+// Consistent header styles from CompleatedRidePlan
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+};
+
 const SupportScreen = ({ navigation, route }) => {
   const [activeCategory, setActiveCategory] = useState('general');
   const [message, setMessage] = useState('');
@@ -156,15 +192,18 @@ const SupportScreen = ({ navigation, route }) => {
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
+      <View style={additionalStyles.headerRow}>
+        <TouchableOpacity
+          style={additionalStyles.backButton}
           onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Support Center</Text>
-        <View style={styles.placeholder} />
+        <View style={additionalStyles.headerContent}>
+          <Text style={additionalStyles.headerTitle}>Support Center</Text>
+          <Text style={additionalStyles.subHeader}>Get help with your ride</Text>
+        </View>
       </View>
 
       {/* Hero Section */}
@@ -316,27 +355,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f8f9fa",
-  },
-  header: {
-    marginTop: 40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  backButton: {
-    padding: 4,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  placeholder: {
-    width: 24,
   },
   heroSection: {
     backgroundColor: '#fff',

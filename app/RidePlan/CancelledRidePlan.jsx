@@ -1,7 +1,48 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { 
+  View, 
+  Text, 
+  TouchableOpacity, 
+  ScrollView
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './RidePlanCss'; // Your existing styles
+import styles from './RidePlanCss';
+
+// Consistent header styles from YourRides
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+};
 
 const CancelledRidePlan = ({ navigation, route }) => {
   const { rideData } = route.params;
@@ -21,15 +62,18 @@ const CancelledRidePlan = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
+      <View style={additionalStyles.headerRow}>
+        <TouchableOpacity
+          style={additionalStyles.backButton}
           onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color="#1E293B" />
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Ride Plan</Text>
-        <View style={styles.placeholder} />
+        <View style={additionalStyles.headerContent}>
+          <Text style={additionalStyles.headerTitle}>Ride Plan</Text>
+          <Text style={additionalStyles.subHeader}>Cancelled Ride</Text>
+        </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>

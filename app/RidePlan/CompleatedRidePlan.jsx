@@ -8,6 +8,42 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import styles from './RidePlanCss';
 
+// Consistent header styles from YourRides
+const additionalStyles = {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 40,
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E1E1E',
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+};
+
 const CompleatedRidePlan = ({ navigation, route }) => {
   const rideData = route?.params?.rideData || {};
 
@@ -30,15 +66,18 @@ const CompleatedRidePlan = ({ navigation, route }) => {
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
+      <View style={additionalStyles.headerRow}>
+        <TouchableOpacity
+          style={additionalStyles.backButton}
           onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Ride Details</Text>
-        <View style={styles.placeholder} />
+        <View style={additionalStyles.headerContent}>
+          <Text style={additionalStyles.headerTitle}>Ride Details</Text>
+          <Text style={additionalStyles.subHeader}>Completed Ride</Text>
+        </View>
       </View>
 
       {/* Ride Details Card */}
@@ -88,20 +127,6 @@ const CompleatedRidePlan = ({ navigation, route }) => {
             </View>
           </View>
         </View>
-      </View>
-
-      {/* Completion Message */}
-      <View style={styles.completedMessageCard}>
-        <View style={styles.completedIcon}>
-          <Ionicons name="checkmark-circle" size={64} color="#10B981" />
-        </View>
-        <Text style={styles.completedTitle}>Ride Completed Successfully!</Text>
-        <Text style={styles.completedMessage}>
-          Your ride has been completed. Thank you for choosing our service.
-        </Text>
-        <Text style={styles.completedSubMessage}>
-          We hope you had a pleasant journey. Rate your experience to help us improve.
-        </Text>
       </View>
 
       {/* Additional Actions */}

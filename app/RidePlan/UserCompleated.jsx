@@ -1,34 +1,81 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, StyleSheet, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const UserCompleted = ({ navigation, route }) => {
-  const { rideData } = route.params;
+  const { rideData, updateRideData } = route.params;
   const [userRating, setUserRating] = useState(rideData.userRating || 0);
+  const supportPhoneNumber = '+18001234567'; // Example support number
 
   const handleRateRide = (rating) => {
     setUserRating(rating);
-    route.params.updateRideData({ ...rideData, userRating: rating });
+    updateRideData({ ...rideData, userRating: rating });
   };
 
   const handleContactSupport = () => {
-    console.log('Contact support');
+    Alert.alert(
+      'Contact Support',
+      'How would you like to contact support?',
+      [
+        {
+          text: 'Call Support',
+          onPress: async () => {
+            console.log(`Initiating call to ${supportPhoneNumber}`);
+            try {
+              const supported = await Linking.canOpenURL(`tel:${supportPhoneNumber}`);
+              if (supported) {
+                await Linking.openURL(`tel:${supportPhoneNumber}`);
+                Alert.alert('Calling', 'Connecting to support...');
+              } else {
+                Alert.alert('Error', 'Phone calls are not supported on this device.');
+              }
+            } catch (error) {
+              Alert.alert('Error', 'Unable to initiate call.');
+              console.error('Call error:', error);
+            }
+          },
+        },
+        {
+          text: 'Chat Support',
+          onPress: () => {
+            try {
+              navigation.navigate('SupportChatScreen', { rideData });
+              console.log('Navigating to SupportChatScreen with rideData:', rideData);
+            } catch (error) {
+              Alert.alert('Navigation Error', 'Unable to open support chat. Please try again.');
+              console.error('Navigation error:', error);
+            }
+          },
+        },
+        { text: 'Cancel', style: 'cancel' },
+      ]
+    );
   };
 
   const handleBookAgain = () => {
-    navigation.navigate('Home', { 
-      prefillData: {
-        from: rideData.from,
-        to: rideData.to
-      }
-    });
+    try {
+      navigation.navigate('HomeScreen', { 
+        prefillData: {
+          from: rideData.from,
+          to: rideData.to
+        }
+      });
+      console.log('Navigating to HomeScreen with prefillData:', { from: rideData.from, to: rideData.to });
+    } catch (error) {
+      Alert.alert('Navigation Error', 'Unable to navigate to Home screen. Please try again.');
+      console.error('Navigation error:', error);
+    }
   };
 
   return (
     <ScrollView style={styles.userContainer}>
       <View style={styles.userHeader}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#1E293B" />
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
+        >
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
         <Text style={styles.userHeaderTitle}>Completed Ride</Text>
       </View>
@@ -38,7 +85,7 @@ const UserCompleted = ({ navigation, route }) => {
           <View style={[styles.statusBadge, { backgroundColor: '#10B981' }]}>
             <Text style={styles.statusText}>Completed</Text>
           </View>
-          <Text style={styles.completedText}>Thank you for riding with us!</Text>
+          <Ionicons name="checkmark-circle" size={24} color="#10B981" />
         </View>
 
         <View style={styles.routeContainer}>
@@ -54,42 +101,18 @@ const UserCompleted = ({ navigation, route }) => {
         </View>
 
         <View style={styles.detailSection}>
-          <Text style={styles.sectionTitle}>Ride Summary</Text>
-          <View style={styles.summaryGrid}>
-            <View style={styles.summaryItem}>
-              <Ionicons name="time" size={20} color="#3B82F6" />
-              <Text style={styles.summaryValue}>{rideData.estimatedTime}</Text>
-              <Text style={styles.summaryLabel}>Duration</Text>
-            </View>
-            <View style={styles.summaryItem}>
-              <Ionicons name="speedometer" size={20} color="#10B981" />
-              <Text style={styles.summaryValue}>{rideData.distance}</Text>
-              <Text style={styles.summaryLabel}>Distance</Text>
-            </View>
-            <View style={styles.summaryItem}>
-              <Ionicons name="wallet" size={20} color="#F59E0B" />
-              <Text style={styles.summaryValue}>{rideData.cost}</Text>
-              <Text style={styles.summaryLabel}>Cost</Text>
-            </View>
+          <Text style={styles.sectionTitle}>Ride Details</Text>
+          <View style={styles.detailRow}>
+            <Ionicons name="calendar-outline" size={18} color="#64748B" />
+            <Text style={styles.detailText}>{rideData.date}</Text>
           </View>
-        </View>
-
-        <View style={styles.detailSection}>
-          <Text style={styles.sectionTitle}>Rate Your Experience</Text>
-          <View style={styles.ratingContainer}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <TouchableOpacity
-                key={star}
-                onPress={() => handleRateRide(star)}
-                style={styles.starButton}
-              >
-                <Ionicons
-                  name={star <= userRating ? "star" : "star-outline"}
-                  size={32}
-                  color={star <= userRating ? "#F59E0B" : "#CBD5E1"}
-                />
-              </TouchableOpacity>
-            ))}
+          <View style={styles.detailRow}>
+            <Ionicons name="time-outline" size={18} color="#64748B" />
+            <Text style={styles.detailText}>{rideData.time}</Text>
+          </View>
+          <View style={styles.detailRow}>
+            <Ionicons name="car-outline" size={18} color="#64748B" />
+            <Text style={styles.detailText}>{rideData.vehicleType}</Text>
           </View>
         </View>
 
@@ -109,21 +132,51 @@ const UserCompleted = ({ navigation, route }) => {
           </View>
         </View>
 
+        <View style={styles.detailSection}>
+          <Text style={styles.sectionTitle}>Rate Your Ride</Text>
+          <View style={styles.ratingStars}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <TouchableOpacity key={star} onPress={() => handleRateRide(star)} activeOpacity={0.7}>
+                <Ionicons
+                  name={star <= userRating ? 'star' : 'star-outline'}
+                  size={28}
+                  color="#F59E0B"
+                  style={{ marginRight: 8 }}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.detailSection}>
+          <Text style={styles.sectionTitle}>Payment Details</Text>
+          <View style={styles.paymentRow}>
+            <Text style={styles.paymentLabel}>Total Amount</Text>
+            <Text style={styles.paymentAmount}>{rideData.cost}</Text>
+          </View>
+          <View style={styles.paymentRow}>
+            <Text style={styles.paymentLabel}>Payment Method</Text>
+            <Text style={styles.paymentMethod}>Credit Card •••• 1234</Text>
+          </View>
+        </View>
+
         <View style={styles.actionButtons}>
           <TouchableOpacity 
             style={[styles.actionButton, styles.primaryButton]}
             onPress={handleBookAgain}
+            activeOpacity={0.7}
           >
-            <Ionicons name="repeat" size={20} color="#FFFFFF" />
+            <Ionicons name="car" size={20} color="#FFFFFF" />
             <Text style={styles.actionButtonText}>Book Again</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
             style={[styles.actionButton, styles.secondaryButton]}
             onPress={handleContactSupport}
+            activeOpacity={0.7}
           >
-            <Ionicons name="help-circle" size={20} color="#64748B" />
-            <Text style={[styles.actionButtonText, { color: '#64748B' }]}>Support</Text>
+            <Ionicons name="headset" size={20} color="#64748B" />
+            <Text style={[styles.actionButtonText, { color: '#64748B' }]}>Contact Support</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -147,7 +200,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    marginRight: 16,
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
   },
   userHeaderTitle: {
     fontSize: 28,
@@ -187,11 +248,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
-  completedText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#64748B',
-  },
   routeContainer: {
     marginBottom: 12,
   },
@@ -229,31 +285,15 @@ const styles = StyleSheet.create({
     color: '#1E293B',
     marginBottom: 12,
   },
-  summaryGrid: {
+  detailRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  summaryItem: {
     alignItems: 'center',
-    flex: 1,
+    marginBottom: 8,
   },
-  summaryValue: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1E293B',
-    marginTop: 4,
-  },
-  summaryLabel: {
-    fontSize: 12,
+  detailText: {
+    fontSize: 14,
     color: '#64748B',
-    marginTop: 2,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  starButton: {
-    marginRight: 8,
+    marginLeft: 8,
   },
   driverInfo: {
     flexDirection: 'row',
@@ -277,11 +317,37 @@ const styles = StyleSheet.create({
     color: '#1E293B',
     marginBottom: 4,
   },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   ratingText: {
     fontSize: 12,
     color: '#F59E0B',
     marginLeft: 2,
     fontWeight: '600',
+  },
+  ratingStars: {
+    flexDirection: 'row',
+    marginBottom: 12,
+  },
+  paymentRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  paymentLabel: {
+    fontSize: 14,
+    color: '#64748B',
+  },
+  paymentAmount: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#09C912',
+  },
+  paymentMethod: {
+    fontSize: 14,
+    color: '#64748B',
   },
   actionButtons: {
     flexDirection: 'row',

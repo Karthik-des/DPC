@@ -1,17 +1,24 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, StyleSheet, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const UserCancelled = ({ navigation, route }) => {
   const { rideData } = route.params;
+  const supportPhoneNumber = '+18001234567'; // Example support number
 
   const handleBookAgain = () => {
-    navigation.navigate('Home', { 
-      prefillData: {
-        from: rideData.from,
-        to: rideData.to
-      }
-    });
+    try {
+      navigation.navigate('HomeScreen', { 
+        prefillData: {
+          from: rideData.from,
+          to: rideData.to
+        }
+      });
+      console.log('Navigating to Home with prefillData:', { from: rideData.from, to: rideData.to });
+    } catch (error) {
+      Alert.alert('Navigation Error', 'Unable to navigate to Home screen. Please try again.');
+      console.error('Navigation error:', error);
+    }
   };
 
   const handleContactSupport = () => {
@@ -19,9 +26,37 @@ const UserCancelled = ({ navigation, route }) => {
       'Contact Support',
       'How would you like to contact support?',
       [
-        { text: 'Call Support', onPress: () => console.log('Call support') },
-        { text: 'Chat Support', onPress: () => console.log('Chat support') },
-        { text: 'Cancel', style: 'cancel' }
+        {
+          text: 'Call Support',
+          onPress: async () => {
+            console.log(`Initiating call to ${supportPhoneNumber}`);
+            try {
+              const supported = await Linking.canOpenURL(`tel:${supportPhoneNumber}`);
+              if (supported) {
+                await Linking.openURL(`tel:${supportPhoneNumber}`);
+                Alert.alert('Calling', 'Connecting to support...');
+              } else {
+                Alert.alert('Error', 'Phone calls are not supported on this device.');
+              }
+            } catch (error) {
+              Alert.alert('Error', 'Unable to initiate call.');
+              console.error('Call error:', error);
+            }
+          },
+        },
+        {
+          text: 'Chat Support',
+          onPress: () => {
+            try {
+              navigation.navigate('SupportChatScreen', { rideData });
+              console.log('Navigating to SupportChatScreen with rideData:', rideData);
+            } catch (error) {
+              Alert.alert('Navigation Error', 'Unable to open support chat. Please try again.');
+              console.error('Navigation error:', error);
+            }
+          },
+        },
+        { text: 'Cancel', style: 'cancel' },
       ]
     );
   };
@@ -29,8 +64,12 @@ const UserCancelled = ({ navigation, route }) => {
   return (
     <ScrollView style={styles.userContainer}>
       <View style={styles.userHeader}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#1E293B" />
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
+        >
+          <Ionicons name="arrow-back" size={24} color="#09C912" />
         </TouchableOpacity>
         <Text style={styles.userHeaderTitle}>Cancelled Ride</Text>
       </View>
@@ -92,6 +131,7 @@ const UserCancelled = ({ navigation, route }) => {
           <TouchableOpacity 
             style={[styles.actionButton, styles.primaryButton]}
             onPress={handleBookAgain}
+            activeOpacity={0.7}
           >
             <Ionicons name="car" size={20} color="#FFFFFF" />
             <Text style={styles.actionButtonText}>Book New Ride</Text>
@@ -100,6 +140,7 @@ const UserCancelled = ({ navigation, route }) => {
           <TouchableOpacity 
             style={[styles.actionButton, styles.secondaryButton]}
             onPress={handleContactSupport}
+            activeOpacity={0.7}
           >
             <Ionicons name="headset" size={20} color="#64748B" />
             <Text style={[styles.actionButtonText, { color: '#64748B' }]}>Contact Support</Text>
@@ -126,7 +167,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    marginRight: 16,
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    marginRight: 10,
   },
   userHeaderTitle: {
     fontSize: 28,
