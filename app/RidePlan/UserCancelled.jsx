@@ -8,7 +8,7 @@ const UserCancelled = ({ navigation, route }) => {
 
   const handleBookAgain = () => {
     try {
-      navigation.navigate('HomeScreen', { 
+      navigation.navigate('DisplayScreen', { 
         prefillData: {
           from: rideData.from,
           to: rideData.to

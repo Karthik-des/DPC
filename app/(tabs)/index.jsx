@@ -6,6 +6,24 @@ import HomeScreen from "../HomeScreens/HomeScreen";
 import ProfilePrompt from "../ProfileScreen/ProfilePromptScreen";
 import ProfilePictureScreen from "../ProfileScreen/ProfilePictureScreen";
 import RidePublishScreen from "../RideScreens/RidePublishScreen";
+
+import DriverPickupScreen from "../DriverPickupAndDroffScreens/DriverPIckupScreen";
+import DriverDropoffScreen from "../DriverPickupAndDroffScreens/DriverDropoffScreen";
+import RouteSelectionScreen from "../DriverPickupAndDroffScreens/RouteSelectionScreen";
+import StopoverSelectionScreen from "../DriverPickupAndDroffScreens/StopoverSelectionScreen";
+import CalendarScreen  from "../DriverPickupAndDroffScreens/CalendarScreen";
+import PickupTimeScreen from "../DriverPickupAndDroffScreens/PickupTimeScreen";
+import CarCountScreen from "../DriverPickupAndDroffScreens/CarCountScreen";
+import EnableScreen from "../DriverPickupAndDroffScreens/EnableScreen";
+import PriceSelectionScreen from "../DriverPickupAndDroffScreens/PriceSelectionScreen";
+import ReturnRideScreen from "../DriverPickupAndDroffScreens/ReturnRideScreen";
+import DriverVerification from "../DriverPickupAndDroffScreens/DriverVerificationScreen";
+import DriverVerificationSuccessScreen from "../DriverPickupAndDroffScreens/DriverVerificationSuccessScreen";
+import InboxScreen from "../InBoxScreens/InBoxScreen";
+
+
+
+
 import DisplayScreen from "../DisplayScreen/DisplayScreen";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import RegisterScreen from "../RegisterScreen/RegisterScreen";
@@ -62,22 +80,50 @@ import UserBooked from "../RidePlan/UserBooked";
 import UserCancelled from "../RidePlan/UserCancelled";
 import UserCompleated from "../RidePlan/UserCompleated";  
 import  Profile from "../Profile/Profile";
+
+
+
 import ContactDriver from "../RidePlan/ContactDriver";
 import ChatScreen from "../RidePlan/ChatScreen";
 import SupportChatScreen from "../RidePlan/SupportChatScreen";
 import BlockedPage from "../RidePlan/BlockedPage";
 import CancellationHistory from "../RidePlan/CancellationHistory";
+
 const Stack = createNativeStackNavigator();
 
 export default function TabIndex() {
   return (
     <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
+
+
+
+
       {/* Main Screens */}
 
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ProfilePrompt" component={ProfilePrompt} />
       <Stack.Screen name="ProfilePictureScreen" component={ProfilePictureScreen} />
       <Stack.Screen name="RidePublishScreen" component={RidePublishScreen} />
+
+
+      <Stack.Screen name="DriverPickupScreen" component={DriverPickupScreen} />
+      <Stack.Screen name="DriverDropoffScreen" component={DriverDropoffScreen} />
+      <Stack.Screen name="RouteSelectionScreen" component={RouteSelectionScreen} />
+      <Stack.Screen name="StopoverSelectionScreen" component={StopoverSelectionScreen} />
+      <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
+      <Stack.Screen name="PickupTimeScreen" component={PickupTimeScreen} />
+      <Stack.Screen name="CarCountScreen" component={CarCountScreen} />
+      <Stack.Screen name="EnableScreen" component={EnableScreen} />
+      <Stack.Screen name="PriceSelectionScreen" component={PriceSelectionScreen} />
+      <Stack.Screen name="ReturnRideScreen" component={ReturnRideScreen} />
+      <Stack.Screen name="DriverVerification" component={DriverVerification} />
+      <Stack.Screen name="DriverVerificationSuccessScreen" component={DriverVerificationSuccessScreen} />
+      <Stack.Screen name="Inbox" component={InboxScreen}/> 
+
+
+
+
+
       <Stack.Screen name="DisplayScreen" component={DisplayScreen} />
 
 
@@ -129,7 +175,9 @@ export default function TabIndex() {
       <Stack.Screen name="FeedBackScreen" component={FeedBackScreen} />
       <Stack.Screen name="MapScreen" component={MapScreen} />
 
-    
+
+
+
       <Stack.Screen name="YourRides" component={YourRides} />
       <Stack.Screen name="RidePlan" component={RidePlan} />
       <Stack.Screen name="IdUpload" component={IdUpload} />
@@ -147,6 +195,10 @@ export default function TabIndex() {
       <Stack.Screen name="SupportChatScreen" component={SupportChatScreen} />
       <Stack.Screen name="BlockedPage" component={BlockedPage} />
       <Stack.Screen name="CancellationHistory" component={CancellationHistory} />
+
+
+
+
 
 
     </Stack.Navigator>

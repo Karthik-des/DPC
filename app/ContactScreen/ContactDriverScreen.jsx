@@ -117,7 +117,7 @@ const ContactDriverScreen = () => {
 
         <TouchableOpacity
           style={styles.bookBtn}
-          onPress={() => navigation.navigate('BookRide')}
+          onPress={() => navigation.navigate('BookRideScreen')}
         >
           <Text style={styles.bookText}>Book Now</Text>
         </TouchableOpacity>

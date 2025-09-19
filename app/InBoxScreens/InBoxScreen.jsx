@@ -35,7 +35,7 @@ const InboxScreen = () => {
         timestamp: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
         read: true,
         icon: 'close-circle',
-        navigationTarget: 'RideDetailsScreen',
+        navigationTarget: 'CancelRide',
         navigationParams: { rideId: '123' },
       },
       {
@@ -46,7 +46,7 @@ const InboxScreen = () => {
         timestamp: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
         read: false,
         icon: 'checkmark-circle',
-        navigationTarget: 'RideDetailsScreen',
+        navigationTarget: 'YourRides',
         navigationParams: { rideId: '456' },
       },
       {
@@ -57,7 +57,7 @@ const InboxScreen = () => {
         timestamp: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
         read: true,
         icon: 'car',
-        navigationTarget: 'RideDetailsScreen',
+        navigationTarget: 'YourRides',
         navigationParams: { rideId: '789' },
       },
       {

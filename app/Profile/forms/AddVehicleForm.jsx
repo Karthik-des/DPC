@@ -21,7 +21,7 @@ const AddVehicleForm = () => {
 
       <View style={{ backgroundColor: '#ffffff', paddingTop: 50, paddingBottom: 12, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#F0F0F0' }}>
         <TouchableOpacity style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' }} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color="#09c912" />
         </TouchableOpacity>
         <Text style={{ fontSize: 18, fontWeight: '700', color: '#111827' }}>Add Vehicle</Text>
         <View style={{ width: 40, height: 40 }} />

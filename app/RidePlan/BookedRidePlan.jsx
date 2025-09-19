@@ -234,7 +234,7 @@ const BookedRidePlan = ({ navigation, route }) => {
 
   // Handle book similar ride - navigate to HomeScreen with prefilled data
   const handleBookSimilarRide = () => {
-    navigation.navigate('HomeScreen', {
+    navigation.navigate('BookRideScreen', {
       prefillData: {
         from: rideData.from,
         to: rideData.to,

@@ -194,7 +194,7 @@ const BookingConfirmationScreen = () => {
 
           <TouchableOpacity
             style={styles.secondaryButton}
-            onPress={() => navigation.navigate('HomeScreen')}
+            onPress={() => navigation.navigate('BookRideScreen')} 
           >
             <Text style={styles.secondaryButtonText}>Browse More Rides</Text>
           </TouchableOpacity>
