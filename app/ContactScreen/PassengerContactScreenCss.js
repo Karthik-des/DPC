@@ -6,13 +6,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop:40,
+    marginTop:20,
   },
   contentContainer: {
     padding: 16,
     paddingBottom: 40,
   },
- headerrr: {
+ head: {
     marginTop: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: 'bold', 
     fontFamily: 'Roboto',
     marginTop: 10,
     marginBottom: 4,

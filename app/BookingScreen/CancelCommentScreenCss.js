@@ -7,9 +7,9 @@ export default StyleSheet.create({
     backgroundColor: '#f0f4f8', // Soft blue-gray for consistency
     paddingHorizontal:24
   },
-   header: {
+   head: {
     marginTop: 20,
-    paddingHorizontal: 16,
+
     paddingVertical: 12,
     flexDirection: 'row',
     alignItems: 'center',

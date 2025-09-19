@@ -70,7 +70,7 @@ const PassengerContactScreen = () => {
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       
       <Animated.View style={{ opacity: fadeAnim }}>
-        <View style={styles.headerrr}>
+        <View style={styles.head}>
                      <TouchableOpacity
                        onPress={() => navigation.goBack()}
                        style={styles.backButton}

@@ -18,6 +18,7 @@ import PriceSelectionScreen from "../DriverPickupAndDroffScreens/PriceSelectionS
 import ReturnRideScreen from "../DriverPickupAndDroffScreens/ReturnRideScreen";
 import DriverVerification from "../DriverPickupAndDroffScreens/DriverVerificationScreen";
 import DriverVerificationSuccessScreen from "../DriverPickupAndDroffScreens/DriverVerificationSuccessScreen";
+import InboxScreen from "../InBoxScreens/InBoxScreen";
 
 
 import DisplayScreen from "../DisplayScreen/DisplayScreen";
@@ -102,6 +103,7 @@ export default function TabIndex() {
       <Stack.Screen name="ReturnRideScreen" component={ReturnRideScreen} />
       <Stack.Screen name="DriverVerification" component={DriverVerification} />
       <Stack.Screen name="DriverVerificationSuccessScreen" component={DriverVerificationSuccessScreen} />
+      <Stack.Screen name="Inbox" component={InboxScreen}/> 
 
 
 

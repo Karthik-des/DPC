@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fb',
     paddingHorizontal: 10,
   },
-  headerrr: {
+  head: {
     marginTop: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 25,
     backgroundColor: '#FFFFFF',
     elevation: 10,
     shadowColor: '#000',

@@ -56,7 +56,7 @@ const CancelCommentScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.backButtonContainer}>
-          <View style={styles.headerrr}>
+          <View style={styles.head}>
                        <TouchableOpacity
                          onPress={() => navigation.goBack()}
                          style={styles.backButton}
