@@ -39,6 +39,6 @@ const VerifyGovIdForm = () => {
   );
 };
 
-export default VerifyGovIdForm;
+export default VerifyGovIdForm; 
 
 

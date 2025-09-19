@@ -478,7 +478,7 @@ const SearchForm = ({ navigation, route }) => {
                     <MaterialIcons name="remove" size={15} color={addPassengers === 0 ? "#ccc" : "#fff"} />
                   </TouchableOpacity>
                   <Text style={[styles.input, styles.passengerText]}>
-                    {addPassengers} (Remaining: {8 - mainPassengers})
+                    {addPassengers} (rest: {8 - mainPassengers})
                   </Text>
                   <TouchableOpacity
                     style={[styles.passengerButton, addPassengers === 8 - mainPassengers && styles.disabledButton]}

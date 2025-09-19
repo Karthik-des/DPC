@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     padding: 6,
     backgroundColor: '#09C912',
     borderRadius: 20,
-    marginHorizontal: 65,
+    marginHorizontal: 58,
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
