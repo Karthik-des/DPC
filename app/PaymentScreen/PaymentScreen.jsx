@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity,Clipboard } from 'react-native';
 import { useRouter } from 'expo-router'; // Added for Expo Router
 import { useNavigation } from '@react-navigation/native'; // Added for React Navigation compatibility
 import { Ionicons } from '@expo/vector-icons'; // Added for back arrow
