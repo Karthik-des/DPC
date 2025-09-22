@@ -183,7 +183,7 @@ const DisplayScreen = () => {
     <View style={styles.container}>
       {/* Header with back button */}
       <View style={styles.headerContainer}>
-         <View style={styles.headerrr}>
+         <View style={styles.head}>
                       <TouchableOpacity
                         onPress={() => navigation.goBack()}
                         style={styles.backButton}
@@ -278,7 +278,7 @@ const DisplayScreen = () => {
             {(totalDistance && duration) && (
               <View style={styles.distanceDurationContainer}>
                 <View style={styles.distanceDurationRow}>
-                  <Ionicons name="distance" size={20} color="#555" />
+               <Ionicons name="trail-sign-outline" size={20} color="#555" />
                   <Text style={styles.distanceDurationText}>
                     Distance: <Text style={styles.highlight}>{totalDistance} km</Text>
                   </Text>

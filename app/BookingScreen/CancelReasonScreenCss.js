@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
    headerrr: {
     marginTop: 20,
-    paddingHorizontal: 16,
+  
     paddingVertical: 12,
     flexDirection: 'row',
     alignItems: 'center',
