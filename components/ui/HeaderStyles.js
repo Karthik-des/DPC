@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginHorizontal: 16,
     marginTop: 8,
+    elevation:10,
   },
   headerGradient: {
     borderRadius: 24,
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.9,
     shadowRadius: 8,
-    elevation: 10,
+    elevation: 20,
     // borderWidth:1.5,
     borderColor:'#d88900ff',
   },

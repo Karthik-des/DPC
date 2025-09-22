@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     overflow: "hidden",
+    elevation:10,
   },
   bottomNavGradient: {
     flex: 1,
@@ -17,10 +18,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     paddingHorizontal: 10,
+    elevation:10,
   },
   navItem: {
     alignItems: "center",
     justifyContent: "center",
+    elevation:10,
   },
   navText: {
     fontSize: 15,

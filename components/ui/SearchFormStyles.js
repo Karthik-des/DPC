@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 3,
+    elevation: 10,
   },
   inputWrapper: {
     flexDirection: 'row',
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderColor: '#E0E0E0',
+    elevation:10,
   },
   icon: {
     padding: 10,
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+    elevation:10,
   },
   optionsContainer: {
     padding: 10,
