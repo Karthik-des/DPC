@@ -69,12 +69,16 @@ const BookRideScreen = () => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       <View style={styles.backButtonContainer}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="arrow-back" size={24} color="#2C3E50" />
-        </TouchableOpacity>
+        <View style={styles.headerrr}>
+                     <TouchableOpacity
+                       onPress={() => navigation.goBack()}
+                       style={styles.backButton}
+                     >
+                       <Ionicons name="arrow-back" size={24} color="#09C912" />
+                     </TouchableOpacity>
+                    
+               
+                   </View>
       </View>
       <Animated.View entering={FadeIn.duration(300)} style={styles.header}>
         <Text style={styles.headerTitle}>Ride Details</Text>
@@ -135,7 +139,7 @@ const BookRideScreen = () => {
         <Text style={styles.subTitle}>Driver Information</Text>
         <TouchableOpacity
           style={styles.rowBetween}
-          onPress={() => navigation.navigate('ContactDriver')}
+          onPress={() => navigation.navigate('ContactDriverScreen')}
         >
           <View style={styles.row}>
             <Image source={drivericon} style={styles.avatar} />
@@ -204,7 +208,7 @@ const BookRideScreen = () => {
               <Text style={styles.detailText}>Traveling to {toAddress}</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('PassengerContact')}>
+          <TouchableOpacity onPress={() => navigation.navigate('PassengerContactScreen')}>
             <Ionicons name="chevron-forward" size={20} color="#7F8C8D" />
           </TouchableOpacity>
         </View>

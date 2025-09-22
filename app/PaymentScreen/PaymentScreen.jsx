@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Clipboard } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router'; // Added for Expo Router
+import { useNavigation } from '@react-navigation/native'; // Added for React Navigation compatibility
+import { Ionicons } from '@expo/vector-icons'; // Added for back arrow
+import Animated, { FadeIn, useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import styles from './PaymentScreenCss.js';
 
 const gpayIcon = require('../../assets/Payment-Icons/gpay.png');
@@ -48,6 +51,8 @@ const PaymentOption = ({ icon, text, subText, onPress }) => {
 const PaymentScreen = () => {
   const referralCode = 'ABC123'; // Replace with your project's referral code
   const scale = useSharedValue(1);
+  const router = useRouter(); // Added for Expo Router
+  const navigation = useNavigation(); // Added for React Navigation
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -68,9 +73,21 @@ const PaymentScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
+        <View style={styles.header}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Ionicons name="arrow-back" size={24} color="#09C912" />
+              </TouchableOpacity>
+            
+              <View style={styles.placeholder} />
+            </View>
+
+      <Animated.View entering={FadeIn.duration(300)} style={styles.header}>
+      
         <Text style={styles.headerTitle}>Choose Payment Method</Text>
-      </View>
+      </Animated.View>
 
       {/* Referral Code Section */}
       <View style={styles.referralSection}>

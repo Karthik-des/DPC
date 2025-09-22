@@ -1,5 +1,4 @@
-// ContactDetailsScreen.jsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   ScrollView,
   Alert,
@@ -7,13 +6,17 @@ import {
   Linking,
   Platform,
   Dimensions,
+  TouchableOpacity,
+  Animated,
+  View,
 } from 'react-native';
 import { TextInput, Button, Text, Divider } from 'react-native-paper';
 import MapView, { Marker } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router'; // Added for Expo Router compatibility
+import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './PassengerContactScreenCss';
-
 
 const { width } = Dimensions.get('window');
 
@@ -22,6 +25,17 @@ const PassengerContactScreen = () => {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigation = useNavigation();
+  const router = useRouter(); // Added for Expo Router
+  const fadeAnim = useRef(new Animated.Value(0)).current; // Animation for back arrow
+
+  // Run fade animation on mount
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
 
   const handleSend = async () => {
     if (!subject.trim() || !message.trim()) {
@@ -54,17 +68,19 @@ const PassengerContactScreen = () => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <Button
-        // ion={({ size }) => (
-        //   <Iccon name="arrow-left" size={size} color="#000" />
-        // )}
-        mode="text"
-        onPress={() => navigation.navigate('Home')}
-        style={styles.backButton}
-        contentStyle={styles.backButtonContent}
-      >
-        {/* <Text style={styles.backButtonText}>Back</Text> */}
-      </Button>
+      
+      <Animated.View style={{ opacity: fadeAnim }}>
+        <View style={styles.headerrr}>
+                     <TouchableOpacity
+                       onPress={() => navigation.goBack()}
+                       style={styles.backButton}
+                     >
+                       <Ionicons name="arrow-back" size={24} color="#09C912" />
+                     </TouchableOpacity>
+                   
+                  
+                   </View>
+      </Animated.View>
 
       <Text style={styles.header}>Contact Support</Text>
       <Text style={styles.subHeader}>We're here to help, 24/7.</Text>

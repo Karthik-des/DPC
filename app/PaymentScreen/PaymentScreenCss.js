@@ -6,21 +6,26 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#f0f4f8', // Soft blue-gray to match BookingStatusScreen
     paddingHorizontal: 24,
-    paddingTop: 20,
+    paddingTop: 40,
     paddingBottom: 80, // Matches scroll padding
   },
   header: {
-    backgroundColor: '#ffffff',
-    padding: 16,
-    borderRadius: 18,
-    // Accent color
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 8,
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   headerTitle: {
     fontSize: 22,

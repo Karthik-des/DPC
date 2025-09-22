@@ -12,10 +12,26 @@ export default StyleSheet.create({
     marginLeft: 16,
     marginBottom: 8,
   },
-  backButton: {
-    padding: 8,
+  headerrr: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    
   },
-  header: {
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+ header: {
     padding: 16,
     paddingBottom: 8,
     marginHorizontal: 16,
@@ -31,6 +47,10 @@ export default StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
+
+
+
+
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',

@@ -6,11 +6,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    marginTop:40,
   },
   contentContainer: {
     padding: 16,
     paddingBottom: 40,
   },
+ headerrr: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+
+
   header: {
     fontSize: 26,
     fontWeight: 'bold',
@@ -45,7 +66,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 32,
     color: '#fff',
-    backgroundColor: '#0089d8',
+    backgroundColor: '#09c912',
   },
   buttonLabel: {
     color: '#ffffff',

@@ -74,12 +74,16 @@ const ContactDriverScreen = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       {/* Back Button */}
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButton}
-      >
-        {/* <Ionicons name="arrow-back" size={28} color="black" /> */}
-      </TouchableOpacity>
+       <View style={styles.header}>
+                    <TouchableOpacity
+                      onPress={() => navigation.goBack()}
+                      style={styles.backButton}
+                    >
+                      <Ionicons name="arrow-back" size={24} color="#09C912" />
+                    </TouchableOpacity>
+                  
+                    <View style={styles.placeholder} />
+                  </View>
 
       <Text style={styles.header}>Driver Profile</Text>
 
