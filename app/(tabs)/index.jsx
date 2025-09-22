@@ -25,19 +25,19 @@ import InboxScreen from "../InBoxScreens/InBoxScreen";
 
 
 
-import DriverPickupScreen from "../DriverPickupAndDroffScreens/DriverPIckupScreen";
-import DriverDropoffScreen from "../DriverPickupAndDroffScreens/DriverDropoffScreen";
-import RouteSelectionScreen from "../DriverPickupAndDroffScreens/RouteSelectionScreen";
-import StopoverSelectionScreen from "../DriverPickupAndDroffScreens/StopoverSelectionScreen";
-import CalendarScreen  from "../DriverPickupAndDroffScreens/CalendarScreen";
-import PickupTimeScreen from "../DriverPickupAndDroffScreens/PickupTimeScreen";
-import CarCountScreen from "../DriverPickupAndDroffScreens/CarCountScreen";
-import EnableScreen from "../DriverPickupAndDroffScreens/EnableScreen";
-import PriceSelectionScreen from "../DriverPickupAndDroffScreens/PriceSelectionScreen";
-import ReturnRideScreen from "../DriverPickupAndDroffScreens/ReturnRideScreen";
-import DriverVerification from "../DriverPickupAndDroffScreens/DriverVerificationScreen";
-import DriverVerificationSuccessScreen from "../DriverPickupAndDroffScreens/DriverVerificationSuccessScreen";
-import InboxScreen from "../InBoxScreens/InBoxScreen";
+// import DriverPickupScreen from "../DriverPickupAndDroffScreens/DriverPIckupScreen";
+// import DriverDropoffScreen from "../DriverPickupAndDroffScreens/DriverDropoffScreen";
+// import RouteSelectionScreen from "../DriverPickupAndDroffScreens/RouteSelectionScreen";
+// import StopoverSelectionScreen from "../DriverPickupAndDroffScreens/StopoverSelectionScreen";
+// import CalendarScreen  from "../DriverPickupAndDroffScreens/CalendarScreen";
+// import PickupTimeScreen from "../DriverPickupAndDroffScreens/PickupTimeScreen";
+// import CarCountScreen from "../DriverPickupAndDroffScreens/CarCountScreen";
+// import EnableScreen from "../DriverPickupAndDroffScreens/EnableScreen";
+// import PriceSelectionScreen from "../DriverPickupAndDroffScreens/PriceSelectionScreen";
+// import ReturnRideScreen from "../DriverPickupAndDroffScreens/ReturnRideScreen";
+// import DriverVerification from "../DriverPickupAndDroffScreens/DriverVerificationScreen";
+// import DriverVerificationSuccessScreen from "../DriverPickupAndDroffScreens/DriverVerificationSuccessScreen";
+// import InboxScreen from "../InBoxScreens/InBoxScreen";
 
 
 
